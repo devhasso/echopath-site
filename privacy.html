@@ -48,12 +48,13 @@
       padding: 0 24px;
     }
     .top-logo {
+      display: flex; align-items: center; gap: 9px;
       font-size: 17px; font-weight: 700;
       background: linear-gradient(90deg, var(--cyan), var(--green));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      text-decoration: none;
-      letter-spacing: -0.3px;
+      text-decoration: none; letter-spacing: -0.3px;
     }
+    .top-logo-img { width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0; display: block; }
     .close-btn {
       display: flex; align-items: center; gap: 7px;
       background: rgba(0,217,255,0.08);
@@ -139,7 +140,10 @@
 
 <!-- Top bar -->
 <div class="top-bar">
-  <span class="top-logo">Echo Path</span>
+  <span class="top-logo">
+    <img src="icon.png" alt="Echo Path" class="top-logo-img" />
+    Echo Path
+  </span>
   <button class="close-btn" onclick="window.close()">
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
       <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>

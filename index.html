@@ -5,450 +5,263 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Echo Path – Trace the Echo. Master the Path.</title>
   <meta name="description" content="Echo Path is a meditative mobile drawing game where you watch, memorise, and trace paths with precision. Available on iOS and Android." />
-  <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
   <link rel="apple-touch-icon" sizes="192x192" href="icon.png" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    /* ── Reset & Base ─────────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --cyan:    #00D9FF;
       --green:   #00FF9F;
       --bg:      #080c18;
-      --bg2:     #0d1225;
       --card:    rgba(255,255,255,0.04);
       --border:  rgba(0,217,255,0.15);
       --text:    #F0F4FF;
       --muted:   rgba(240,244,255,0.55);
       --radius:  16px;
     }
-
     html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+    /* ── Aurora ── */
+    #aurora-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.65; }
 
-    /* ── Aurora Canvas Background ─────────────────────────────────────────── */
-    #aurora-canvas {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.7;
-    }
-
-    /* ── Layout ───────────────────────────────────────────────────────────── */
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0 24px;
-      position: relative;
-      z-index: 1;
-    }
-
+    /* ── Layout ── */
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
     section { padding: 80px 0; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; position: relative; z-index: 1; }
 
-    /* ── Nav ──────────────────────────────────────────────────────────────── */
+    /* ── Nav ── */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      background: rgba(8,12,24,0.85);
-      backdrop-filter: blur(16px);
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(8,12,24,0.88); backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--border);
     }
-
     .nav-inner {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      max-width: 960px; margin: 0 auto; padding: 0 24px;
+      height: 60px; display: flex; align-items: center; justify-content: space-between;
     }
-
     .nav-logo {
-      font-size: 18px;
-      font-weight: 700;
+      display: flex; align-items: center; gap: 9px;
+      text-decoration: none;
+      font-size: 18px; font-weight: 700; letter-spacing: -0.3px;
       background: linear-gradient(90deg, var(--cyan), var(--green));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-decoration: none;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-
-    .nav-links {
-      display: flex;
-      gap: 28px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.3px;
-      transition: color 0.2s;
-    }
-
+    .nav-logo-img { width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0; display: block; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 0.3px; transition: color 0.2s; }
     .nav-links a:hover { color: var(--cyan); }
 
-    /* ── Hero ─────────────────────────────────────────────────────────────── */
-    #home {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding-top: 60px;
-    }
-
-    .hero-content {
-      text-align: center;
-      width: 100%;
-      padding: 60px 0 40px;
-    }
-
+    /* ── Hero ── */
+    #home { min-height: 100vh; display: flex; align-items: center; padding-top: 60px; }
+    .hero-content { text-align: center; width: 100%; padding: 60px 0 32px; }
     .hero-badge {
-      display: inline-block;
-      padding: 6px 16px;
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--cyan);
-      margin-bottom: 28px;
-      background: rgba(0,217,255,0.06);
+      display: inline-block; padding: 6px 16px;
+      border: 1px solid var(--border); border-radius: 100px;
+      font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 28px; background: rgba(0,217,255,0.06);
     }
+    .hero-title { font-size: clamp(46px, 8vw, 88px); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 20px; }
+    .hero-title .gradient { background: linear-gradient(135deg, var(--cyan), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-tagline { font-size: clamp(15px, 2.2vw, 19px); color: var(--muted); max-width: 480px; margin: 0 auto 44px; }
 
-    .hero-title {
-      font-size: clamp(48px, 8vw, 88px);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -2px;
-      margin-bottom: 20px;
-    }
-
-    .hero-title .gradient {
-      background: linear-gradient(135deg, var(--cyan) 0%, var(--green) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-tagline {
-      font-size: clamp(16px, 2.5vw, 20px);
-      color: var(--muted);
-      max-width: 500px;
-      margin: 0 auto 48px;
-      font-weight: 400;
-    }
-
-    /* Store Buttons */
-    .store-buttons {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 64px;
-    }
-
+    /* Store Badges */
+    .store-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 56px; }
     .store-btn {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 24px;
-      border-radius: 14px;
-      text-decoration: none;
-      border: 1.5px solid var(--border);
-      background: rgba(255,255,255,0.04);
-      transition: all 0.25s;
-      min-width: 180px;
+      display: flex; align-items: center; gap: 11px;
+      padding: 11px 20px; border-radius: 13px; text-decoration: none;
+      background: rgba(8,12,24,0.9); border: 1.5px solid rgba(255,255,255,0.18);
+      transition: all 0.25s; min-width: 165px;
     }
-
-    .store-btn:hover {
-      border-color: var(--cyan);
-      background: rgba(0,217,255,0.08);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(0,217,255,0.15);
-    }
-
-    .store-btn svg { flex-shrink: 0; }
-
+    .store-btn:hover { border-color: var(--cyan); background: rgba(0,217,255,0.07); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,217,255,0.12); }
+    .store-btn-icon { flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
     .store-btn-text { text-align: left; }
-    .store-btn-sub  { display: block; font-size: 10px; color: var(--muted); font-weight: 400; text-transform: uppercase; letter-spacing: 0.8px; }
-    .store-btn-name { display: block; font-size: 16px; font-weight: 700; color: var(--text); }
+    .store-btn-sub { display: block; font-size: 10px; color: rgba(240,244,255,0.5); font-weight: 400; letter-spacing: 0.5px; line-height: 1.2; }
+    .store-btn-name { display: block; font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.3; }
 
-    /* Hero visual — path trace animation */
-    .hero-visual {
-      width: 220px;
-      height: 220px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .hero-ring {
-      position: absolute;
-      border-radius: 50%;
-      border: 1px solid;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      animation: ringPulse 3s ease-in-out infinite;
-    }
-
-    .hero-ring:nth-child(1) { width: 220px; height: 220px; border-color: rgba(0,217,255,0.15); animation-delay: 0s; }
-    .hero-ring:nth-child(2) { width: 160px; height: 160px; border-color: rgba(0,217,255,0.22); animation-delay: 0.6s; }
-    .hero-ring:nth-child(3) { width:  96px; height:  96px; border-color: rgba(0,217,255,0.32); animation-delay: 1.2s; }
-
+    /* Hero rings */
+    .hero-visual { width: 200px; height: 200px; margin: 0 auto; position: relative; }
+    .hero-ring { position: absolute; border-radius: 50%; border: 1px solid; top: 50%; left: 50%; transform: translate(-50%,-50%); animation: ringPulse 3s ease-in-out infinite; }
+    .hero-ring:nth-child(1) { width: 200px; height: 200px; border-color: rgba(0,217,255,0.12); animation-delay: 0s; }
+    .hero-ring:nth-child(2) { width: 144px; height: 144px; border-color: rgba(0,217,255,0.20); animation-delay: 0.6s; }
+    .hero-ring:nth-child(3) { width:  88px; height:  88px; border-color: rgba(0,217,255,0.30); animation-delay: 1.2s; }
     .hero-dot {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      background: radial-gradient(circle, var(--cyan), rgba(0,217,255,0.3));
-      box-shadow: 0 0 24px var(--cyan), 0 0 48px rgba(0,217,255,0.4);
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 28px; height: 28px; border-radius: 50%;
+      background: radial-gradient(circle, var(--cyan), rgba(0,217,255,0.25));
+      box-shadow: 0 0 20px var(--cyan), 0 0 44px rgba(0,217,255,0.35);
       animation: dotGlow 2s ease-in-out infinite;
     }
+    @keyframes ringPulse { 0%,100%{opacity:.35;transform:translate(-50%,-50%) scale(1)} 50%{opacity:.85;transform:translate(-50%,-50%) scale(1.05)} }
+    @keyframes dotGlow { 0%,100%{box-shadow:0 0 18px var(--cyan),0 0 36px rgba(0,217,255,.3)} 50%{box-shadow:0 0 32px var(--cyan),0 0 64px rgba(0,217,255,.5)} }
 
-    @keyframes ringPulse {
-      0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
-      50%       { opacity: 0.9; transform: translate(-50%, -50%) scale(1.04); }
+    /* ── Section Headers ── */
+    .section-label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--cyan); margin-bottom: 12px; }
+    .section-title { font-size: clamp(26px, 3.8vw, 40px); font-weight: 700; letter-spacing: -1px; margin-bottom: 14px; }
+    .section-sub { color: var(--muted); font-size: 15px; max-width: 540px; margin-bottom: 44px; }
+
+    /* ── Gameplay Showcase ── */
+    #preview { padding: 64px 0 80px; }
+    .preview-layout {
+      display: flex; align-items: center; gap: 60px;
+      flex-wrap: wrap; justify-content: center;
     }
-
-    @keyframes dotGlow {
-      0%, 100% { box-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(0,217,255,0.3); }
-      50%       { box-shadow: 0 0 36px var(--cyan), 0 0 72px rgba(0,217,255,0.5); }
+    .preview-text { flex: 1; min-width: 260px; max-width: 380px; }
+    .preview-stats { display: flex; flex-direction: column; gap: 12px; margin-top: 32px; }
+    .preview-stat {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px;
     }
+    .preview-stat-icon { font-size: 20px; flex-shrink: 0; }
+    .preview-stat-label { font-size: 13px; color: var(--muted); }
+    .preview-stat-value { font-size: 15px; font-weight: 700; color: var(--cyan); margin-left: auto; }
 
-    /* ── Section Headers ──────────────────────────────────────────────────── */
-    .section-label {
-      display: block;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--cyan);
-      margin-bottom: 12px;
+    /* Phone Mockup */
+    .phone-wrap { flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .phone-frame {
+      width: 248px; height: 496px;
+      border: 2.5px solid rgba(0,217,255,0.28);
+      border-radius: 38px;
+      background: #06090f;
+      position: relative; overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(0,217,255,0.06), 0 0 60px rgba(0,217,255,0.12), 0 24px 80px rgba(0,0,0,0.6);
     }
-
-    .section-title {
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: 700;
-      letter-spacing: -1px;
-      margin-bottom: 16px;
+    .phone-notch {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 72px; height: 22px;
+      background: #06090f;
+      border-radius: 0 0 16px 16px;
+      z-index: 10;
+      border: 2px solid rgba(0,217,255,0.18); border-top: none;
     }
-
-    .section-sub {
-      color: var(--muted);
-      font-size: 16px;
-      max-width: 560px;
-      margin-bottom: 48px;
+    .phone-home {
+      position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+      width: 72px; height: 4px;
+      background: rgba(0,217,255,0.3); border-radius: 2px; z-index: 10;
     }
+    #gameplay-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 
-    /* ── Feature Cards ────────────────────────────────────────────────────── */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-
+    /* ── Features ── */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap: 18px; }
     .feature-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-      transition: all 0.25s;
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px;
+      transition: all 0.25s; cursor: default;
     }
+    .feature-card:hover { border-color: rgba(0,217,255,0.32); background: rgba(0,217,255,0.04); transform: translateY(-3px); }
+    .feature-icon { font-size: 30px; margin-bottom: 14px; display: block; }
+    .feature-title { font-size: 16px; font-weight: 600; margin-bottom: 7px; }
+    .feature-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
 
-    .feature-card:hover {
-      border-color: rgba(0,217,255,0.35);
-      background: rgba(0,217,255,0.05);
-      transform: translateY(-3px);
+    /* ── How To Play ── */
+    #how-to-play { background: rgba(255,255,255,0.012); }
+    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 18px; }
+    .step-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 28px 22px 22px; text-align: center;
+      cursor: pointer; transition: all 0.25s; position: relative; overflow: hidden;
     }
-
-    .feature-icon {
-      font-size: 32px;
-      margin-bottom: 16px;
-      display: block;
+    .step-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,217,255,0.05), transparent);
+      opacity: 0; transition: opacity 0.25s;
     }
-
-    .feature-title {
-      font-size: 17px;
-      font-weight: 600;
-      margin-bottom: 8px;
+    .step-card:hover { border-color: var(--cyan); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,217,255,0.12); }
+    .step-card:hover::before { opacity: 1; }
+    .step-canvas-wrap {
+      width: 100%; height: 130px; border-radius: 10px; overflow: hidden;
+      background: rgba(0,0,0,0.4); margin-bottom: 16px; position: relative;
     }
-
-    .feature-desc {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.65;
+    .step-canvas-wrap canvas { width: 100%; height: 100%; display: block; }
+    .step-play-hint {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.3); border-radius: 10px;
+      opacity: 0; transition: opacity 0.2s;
     }
-
-    /* ── How to Play ──────────────────────────────────────────────────────── */
-    #how-to-play { background: rgba(255,255,255,0.015); }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 24px;
+    .step-card:hover .step-play-hint { opacity: 1; }
+    .step-play-hint span {
+      background: rgba(0,217,255,0.15); border: 1px solid var(--cyan);
+      border-radius: 20px; padding: 5px 14px;
+      font-size: 11px; font-weight: 600; color: var(--cyan); letter-spacing: 1px;
     }
-
-    .step {
-      text-align: center;
-      padding: 32px 20px;
-    }
-
     .step-number {
-      width: 48px; height: 48px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, rgba(0,217,255,0.15), rgba(0,255,159,0.10));
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(0,217,255,0.12), rgba(0,255,159,0.08));
       border: 1.5px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--cyan);
-      margin: 0 auto 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 700; color: var(--cyan);
+      margin: 0 auto 10px;
     }
+    .step-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .step-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
 
-    .step-title {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 8px;
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(4,7,16,0.92); backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s;
     }
-
-    .step-desc {
-      font-size: 13px;
-      color: var(--muted);
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal-box {
+      width: 90%; max-width: 520px;
+      background: linear-gradient(145deg, rgba(13,18,37,0.98), rgba(8,12,24,0.98));
+      border: 1.5px solid var(--border); border-radius: 24px;
+      padding: 32px; position: relative;
+      transform: translateY(20px); transition: transform 0.3s;
+      box-shadow: 0 32px 96px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,217,255,0.05);
     }
-
-    /* ── Divider ──────────────────────────────────────────────────────────── */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 0;
+    .modal-overlay.open .modal-box { transform: translateY(0); }
+    .modal-close {
+      position: absolute; top: 16px; right: 16px;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+      color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; font-size: 14px;
     }
-
-    /* ── Legal Sections (Privacy + ToS) ──────────────────────────────────── */
-    .legal-content {
-      max-width: 760px;
+    .modal-close:hover { background: rgba(0,217,255,0.1); border-color: var(--cyan); color: var(--text); }
+    .modal-step-label {
+      font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 8px; display: block;
     }
-
-    .legal-content h3 {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--cyan);
-      margin: 36px 0 10px;
+    .modal-title { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 20px; }
+    .modal-canvas-wrap {
+      width: 100%; height: 260px; border-radius: 14px; overflow: hidden;
+      background: #06090f; margin-bottom: 20px;
+      border: 1px solid rgba(0,217,255,0.1);
     }
+    #modal-canvas { width: 100%; height: 100%; display: block; }
+    .modal-desc { font-size: 14px; color: var(--muted); line-height: 1.75; }
 
-    .legal-content h3:first-child { margin-top: 0; }
-
-    .legal-content p {
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 12px;
-      line-height: 1.75;
-    }
-
-    .legal-content ul {
-      padding-left: 20px;
-      margin-bottom: 12px;
-    }
-
-    .legal-content ul li {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.75;
-      margin-bottom: 4px;
-    }
-
-    .legal-content a {
-      color: var(--cyan);
-      text-decoration: none;
-    }
-
-    .legal-content a:hover { text-decoration: underline; }
-
-    .legal-date {
-      display: inline-block;
-      font-size: 12px;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 4px 10px;
-      margin-bottom: 28px;
-    }
-
-    /* ── Footer ───────────────────────────────────────────────────────────── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 40px 0;
-      position: relative;
-      z-index: 1;
-    }
-
+    /* ── Footer ── */
+    footer { border-top: 1px solid var(--border); padding: 40px 0; position: relative; z-index: 1; }
     .footer-inner {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
+      max-width: 960px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
     }
-
     .footer-logo {
-      font-size: 16px;
-      font-weight: 700;
+      display: flex; align-items: center; gap: 9px;
+      font-size: 16px; font-weight: 700;
       background: linear-gradient(90deg, var(--cyan), var(--green));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-
-    .footer-links {
-      display: flex;
-      gap: 24px;
-      list-style: none;
-    }
-
-    .footer-links a {
-      font-size: 13px;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
+    .footer-logo-img { width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0; display: block; }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
     .footer-links a:hover { color: var(--cyan); }
+    .footer-copy { font-size: 12px; color: rgba(240,244,255,0.25); width: 100%; text-align: center; margin-top: 6px; }
 
-    .footer-copy {
-      font-size: 12px;
-      color: rgba(240,244,255,0.3);
-      width: 100%;
-      text-align: center;
-      margin-top: 8px;
-    }
-
-    /* ── Responsive ───────────────────────────────────────────────────────── */
-    @media (max-width: 600px) {
-      section { padding: 60px 0; }
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      section { padding: 56px 0; }
       .nav-links { display: none; }
       .store-buttons { flex-direction: column; align-items: center; }
+      .preview-layout { gap: 40px; }
       .footer-inner { justify-content: center; text-align: center; }
       .footer-links { justify-content: center; }
     }
@@ -456,44 +269,45 @@
 </head>
 <body>
 
-<!-- Aurora background canvas -->
 <canvas id="aurora-canvas"></canvas>
 
-<!-- ── Navigation ────────────────────────────────────────────────────────── -->
+<!-- ── Nav ── -->
 <nav>
   <div class="nav-inner">
-    <a href="#home" class="nav-logo">Echo Path</a>
+    <a href="#home" class="nav-logo">
+      <img src="icon.png" alt="Echo Path" class="nav-logo-img" />
+      Echo Path
+    </a>
     <ul class="nav-links">
       <li><a href="#features">Features</a></li>
       <li><a href="#how-to-play">How to Play</a></li>
-      <li><a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a></li>
-      <li><a href="terms.html" target="_blank" rel="noopener">Terms of Service</a></li>
+      <li><a href="privacy.html" target="_blank" rel="noopener">Privacy</a></li>
+      <li><a href="terms.html" target="_blank" rel="noopener">Terms</a></li>
     </ul>
   </div>
 </nav>
 
-<!-- ── Hero ──────────────────────────────────────────────────────────────── -->
+<!-- ── Hero ── -->
 <section id="home">
   <div class="container">
     <div class="hero-content">
       <span class="hero-badge">Now Available on Mobile</span>
-
       <h1 class="hero-title">
         Trace the Echo.<br/>
         <span class="gradient">Master the Path.</span>
       </h1>
-
       <p class="hero-tagline">
         A meditative precision drawing game. Watch the path. Remember it. Trace it perfectly.
       </p>
 
       <div class="store-buttons">
-        <!-- Replace href="#" with your actual store URLs when ready -->
+        <!-- Replace href="#" with actual store URLs -->
         <a href="#" class="store-btn" id="appstore-btn">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <path d="M20.5 14.8c0-3.3 2.7-4.9 2.8-5-.1-.2-1.1-1.5-2.2-2-.9-.5-1.8-.5-2.6-.5-.7 0-1.4.1-2 .4-.5.2-.9.4-1.3.4-.4 0-.9-.2-1.4-.4-.6-.2-1.2-.4-1.9-.4-1.4 0-2.7.8-3.5 2.1-1.5 2.6-.4 6.4 1 8.5.7 1 1.5 2.1 2.6 2.1 1 0 1.4-.7 2.6-.7 1.2 0 1.5.7 2.6.7 1.1 0 1.8-1 2.5-2 .5-.7.9-1.5 1.2-2.3-.1-.1-2.4-1-2.4-3.9z" fill="white"/>
-            <path d="M18.1 7.5c.6-.7 1-1.7.9-2.7-.9 0-2 .6-2.6 1.3-.6.7-.9 1.6-.9 2.5.9.1 1.9-.4 2.6-1.1z" fill="white"/>
-          </svg>
+          <div class="store-btn-icon">
+            <svg width="22" height="27" viewBox="0 0 22 27" fill="none">
+              <path fill="white" d="M18.04 14.3c-.03-3.22 2.63-4.77 2.75-4.84-1.5-2.19-3.83-2.49-4.66-2.52-1.99-.2-3.87 1.17-4.88 1.17-1 0-2.57-1.14-4.22-1.11-2.17.03-4.17 1.26-5.28 3.19C-.51 13.89.88 19.8 3.02 23.03c1.07 1.55 2.34 3.29 4.01 3.23 1.61-.07 2.22-1.04 4.17-1.04 1.94 0 2.49 1.04 4.19 1.01 1.73-.03 2.82-1.57 3.88-3.13a14 14 0 001.76-3.62 6.42 6.42 0 01-3.99-5.18zM14.93 4.56C15.77 3.55 16.33 2.16 16.17.7c-1.25.05-2.76.83-3.65 1.83-.8.9-1.5 2.34-1.31 3.72 1.38.1 2.8-.7 3.72-1.69z"/>
+            </svg>
+          </div>
           <div class="store-btn-text">
             <span class="store-btn-sub">Download on the</span>
             <span class="store-btn-name">App Store</span>
@@ -501,12 +315,32 @@
         </a>
 
         <a href="#" class="store-btn" id="playstore-btn">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <path d="M5.5 4.5L16.8 14 5.5 23.5V4.5z" fill="#00D9FF"/>
-            <path d="M5.5 4.5l11.3 9.5 3.5-3.5L8.1 3.2C7 2.6 5.9 3 5.5 4.5z" fill="#00FF9F"/>
-            <path d="M5.5 23.5l11.3-9.5 3.5 3.5-12.2 7.3c-1.1.6-2.2.2-2.6-1.3z" fill="#00BFFF"/>
-            <path d="M20.3 10.5L16.8 14l3.5 3.5 2.4-1.4c1.1-.6 1.1-1.6 0-2.2l-2.4-3.4z" fill="white"/>
-          </svg>
+          <div class="store-btn-icon">
+            <svg width="24" height="27" viewBox="0 0 24 27" fill="none">
+              <path d="M1.5 1.07C1.18 1.42 1 1.96 1 2.67v21.66c0 .71.18 1.25.5 1.6l.08.08 12.13-12.13v-.28L1.58.99l-.08.08z" fill="url(#gp1)"/>
+              <path d="M17.8 18.02l-4.09-4.09v-.28l4.09-4.09.09.05 4.85 2.75c1.38.79 1.38 2.07 0 2.86l-4.85 2.75-.09.05z" fill="url(#gp2)"/>
+              <path d="M17.89 17.97L13.71 13.8 1.5 26.01c.46.48 1.2.54 2.05.06l14.34-8.1z" fill="url(#gp3)"/>
+              <path d="M17.89 9.63L3.55 1.53C2.7 1.05 1.96 1.1 1.5 1.59l12.21 12.21 4.18-4.17z" fill="url(#gp4)"/>
+              <defs>
+                <linearGradient id="gp1" x1="13.28" y1="2.38" x2="-5.18" y2="13.8" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#00D9FF"/>
+                  <stop offset="1" stop-color="#0070CC"/>
+                </linearGradient>
+                <linearGradient id="gp2" x1="22.81" y1="13.8" x2="12.63" y2="13.8" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#FFD700"/>
+                  <stop offset="1" stop-color="#FF9500"/>
+                </linearGradient>
+                <linearGradient id="gp3" x1="15.44" y1="16.19" x2="1.05" y2="32.83" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#FF4444"/>
+                  <stop offset="1" stop-color="#CC0055"/>
+                </linearGradient>
+                <linearGradient id="gp4" x1="1.05" y1="-5.23" x2="15.44" y2="11.41" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#00FF9F"/>
+                  <stop offset="1" stop-color="#00CC77"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
           <div class="store-btn-text">
             <span class="store-btn-sub">Get it on</span>
             <span class="store-btn-name">Google Play</span>
@@ -514,7 +348,6 @@
         </a>
       </div>
 
-      <!-- Animated visual -->
       <div class="hero-visual">
         <div class="hero-ring"></div>
         <div class="hero-ring"></div>
@@ -527,230 +360,148 @@
 
 <hr class="divider" />
 
-<!-- ── Features ───────────────────────────────────────────────────────────── -->
+<!-- ── Gameplay Showcase ── -->
+<section id="preview">
+  <div class="container">
+    <div class="preview-layout">
+
+      <div class="preview-text">
+        <span class="section-label">Live Preview</span>
+        <h2 class="section-title">Watch Echo Path in Action</h2>
+        <p class="section-sub" style="margin-bottom:0">See exactly what it feels like to play — from the echo animation to the final accuracy score.</p>
+        <div class="preview-stats">
+          <div class="preview-stat">
+            <span class="preview-stat-icon">✦</span>
+            <span class="preview-stat-label">Levels to master</span>
+            <span class="preview-stat-value">50+</span>
+          </div>
+          <div class="preview-stat">
+            <span class="preview-stat-icon">🏆</span>
+            <span class="preview-stat-label">Achievements to unlock</span>
+            <span class="preview-stat-value">20+</span>
+          </div>
+          <div class="preview-stat">
+            <span class="preview-stat-icon">📅</span>
+            <span class="preview-stat-label">Fresh challenge every day</span>
+            <span class="preview-stat-value">Daily</span>
+          </div>
+          <div class="preview-stat">
+            <span class="preview-stat-icon">⭐</span>
+            <span class="preview-stat-label">Stars per level</span>
+            <span class="preview-stat-value">Up to 3</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phone-wrap">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <canvas id="gameplay-canvas"></canvas>
+          <div class="phone-home"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ── Features ── -->
 <section id="features">
   <div class="container">
     <span class="section-label">What's Inside</span>
     <h2 class="section-title">Built for Focus &amp; Flow</h2>
     <p class="section-sub">Every element of Echo Path is designed to put you in a calm, focused state — then challenge your precision.</p>
-
     <div class="features-grid">
-      <div class="feature-card">
-        <span class="feature-icon">✦</span>
-        <div class="feature-title">Precision Drawing</div>
-        <p class="feature-desc">Watch the echo path animate, then reproduce it as accurately as possible. Scored on accuracy, speed, and fluidity.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">⭐</span>
-        <div class="feature-title">Star Ratings</div>
-        <p class="feature-desc">Earn up to 3 stars per level. Chase perfect scores and push your accuracy to the limit.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🏆</span>
-        <div class="feature-title">Achievements</div>
-        <p class="feature-desc">Unlock achievements as you progress — from your first completed level to streak milestones and flawless runs.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">📅</span>
-        <div class="feature-title">Daily Challenge</div>
-        <p class="feature-desc">A new unique path every day. Complete it for triple coin rewards and keep your daily streak alive.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">⚡</span>
-        <div class="feature-title">Power-Ups</div>
-        <p class="feature-desc">Use Path Echo to reveal the ghost trail, or Time Extend to buy yourself precious extra seconds under pressure.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🎨</span>
-        <div class="feature-title">Trail Skins</div>
-        <p class="feature-desc">Customise your drawing trail with unlockable colour skins. Make your path uniquely yours.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">☁️</span>
-        <div class="feature-title">Cloud Save</div>
-        <p class="feature-desc">Sign in with Google to sync your progress across devices. Your achievements, stars, and coins always follow you.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">📊</span>
-        <div class="feature-title">Statistics</div>
-        <p class="feature-desc">Track your accuracy trends, total stars earned, win streaks, and more in the detailed stats screen.</p>
-      </div>
+      <div class="feature-card"><span class="feature-icon">✦</span><div class="feature-title">Precision Drawing</div><p class="feature-desc">Watch the echo path animate, then reproduce it as accurately as possible. Scored on accuracy, speed, and fluidity.</p></div>
+      <div class="feature-card"><span class="feature-icon">⭐</span><div class="feature-title">Star Ratings</div><p class="feature-desc">Earn up to 3 stars per level. Chase perfect scores and push your accuracy to the limit.</p></div>
+      <div class="feature-card"><span class="feature-icon">🏆</span><div class="feature-title">Achievements</div><p class="feature-desc">Unlock achievements as you progress — from your first completed level to streak milestones and flawless runs.</p></div>
+      <div class="feature-card"><span class="feature-icon">📅</span><div class="feature-title">Daily Challenge</div><p class="feature-desc">A new unique path every day. Complete it for triple coin rewards and keep your daily streak alive.</p></div>
+      <div class="feature-card"><span class="feature-icon">⚡</span><div class="feature-title">Power-Ups</div><p class="feature-desc">Use Path Echo to reveal the ghost trail, or Time Extend to buy yourself precious extra seconds under pressure.</p></div>
+      <div class="feature-card"><span class="feature-icon">🎨</span><div class="feature-title">Trail Skins</div><p class="feature-desc">Customise your drawing trail with unlockable colour skins. Make your path uniquely yours.</p></div>
+      <div class="feature-card"><span class="feature-icon">☁️</span><div class="feature-title">Cloud Save</div><p class="feature-desc">Sign in with Google to sync your progress across devices. Your achievements, stars, and coins always follow you.</p></div>
+      <div class="feature-card"><span class="feature-icon">📊</span><div class="feature-title">Statistics</div><p class="feature-desc">Track your accuracy trends, total stars earned, win streaks, and more in the detailed stats screen.</p></div>
     </div>
   </div>
 </section>
 
 <hr class="divider" />
 
-<!-- ── How to Play ─────────────────────────────────────────────────────────── -->
+<!-- ── How to Play ── -->
 <section id="how-to-play">
   <div class="container">
     <span class="section-label">Gameplay</span>
     <h2 class="section-title">How to Play</h2>
-    <p class="section-sub">Simple to pick up, satisfying to master.</p>
+    <p class="section-sub">Tap any step to see it in action.</p>
+    <div class="steps-grid">
 
-    <div class="steps">
-      <div class="step">
+      <div class="step-card" onclick="openModal('watch')">
+        <div class="step-canvas-wrap">
+          <canvas id="step-canvas-watch" width="300" height="130"></canvas>
+          <div class="step-play-hint"><span>▶ WATCH</span></div>
+        </div>
         <div class="step-number">1</div>
         <div class="step-title">Watch</div>
-        <p class="step-desc">The echo path animates on screen. Study its shape, speed, and direction carefully.</p>
+        <p class="step-desc">The echo path animates on screen. Study its shape and direction carefully.</p>
       </div>
-      <div class="step">
+
+      <div class="step-card" onclick="openModal('remember')">
+        <div class="step-canvas-wrap">
+          <canvas id="step-canvas-remember" width="300" height="130"></canvas>
+          <div class="step-play-hint"><span>▶ WATCH</span></div>
+        </div>
         <div class="step-number">2</div>
         <div class="step-title">Remember</div>
-        <p class="step-desc">The path disappears. Hold the shape in your mind before the timer runs out.</p>
+        <p class="step-desc">The path disappears. Hold the shape in your mind before your turn begins.</p>
       </div>
-      <div class="step">
+
+      <div class="step-card" onclick="openModal('trace')">
+        <div class="step-canvas-wrap">
+          <canvas id="step-canvas-trace" width="300" height="130"></canvas>
+          <div class="step-play-hint"><span>▶ WATCH</span></div>
+        </div>
         <div class="step-number">3</div>
         <div class="step-title">Trace</div>
         <p class="step-desc">Draw the path from memory as accurately as you can. Every pixel counts.</p>
       </div>
-      <div class="step">
+
+      <div class="step-card" onclick="openModal('score')">
+        <div class="step-canvas-wrap">
+          <canvas id="step-canvas-score" width="300" height="130"></canvas>
+          <div class="step-play-hint"><span>▶ WATCH</span></div>
+        </div>
         <div class="step-number">4</div>
         <div class="step-title">Score</div>
-        <p class="step-desc">Get scored on accuracy. Earn stars, collect coins, and unlock the next challenge.</p>
+        <p class="step-desc">Get scored on accuracy. Earn stars, collect coins, and unlock the next level.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider" />
-
-<!-- ── Privacy Policy ─────────────────────────────────────────────────────── -->
-<section id="privacy">
-  <div class="container">
-    <span class="section-label">Legal</span>
-    <h2 class="section-title">Privacy Policy</h2>
-    <span class="legal-date">Effective Date: March 4, 2026</span>
-
-    <div class="legal-content">
-
-      <h3>1. Introduction</h3>
-      <p>Welcome to Echo Path ("the App", "we", "our", or "us"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains what information we collect, how we use it, and what rights you have in relation to it.</p>
-      <p>By using Echo Path, you agree to the collection and use of information as described in this policy.</p>
-
-      <h3>2. Information We Collect</h3>
-      <p>We collect the following types of information:</p>
-      <ul>
-        <li><strong>Account Information:</strong> When you sign in with Google, we receive your name and email address provided by Google's OAuth service. We do not receive or store your Google password.</li>
-        <li><strong>Game Progress Data:</strong> Level completion results, star ratings, accuracy scores, achievement records, coin and gem balances, daily challenge history, and settings preferences.</li>
-        <li><strong>Device Information:</strong> Basic technical information such as device type and operating system version, used solely for ensuring compatibility and diagnosing issues.</li>
-      </ul>
-      <p>We do not collect payment information, precise location data, contacts, photos, or any other sensitive personal data.</p>
-
-      <h3>3. How We Use Your Information</h3>
-      <ul>
-        <li>To provide and maintain the App and its features</li>
-        <li>To sync your game progress across devices via cloud save</li>
-        <li>To display your achievements, statistics, and personalised game state</li>
-        <li>To improve the App's performance and fix bugs</li>
-        <li>To communicate important updates about the App (if you have an account)</li>
-      </ul>
-      <p>We do not use your data for advertising, profiling, or any purpose unrelated to providing the App.</p>
-
-      <h3>4. Data Storage and Security</h3>
-      <p>Your game data is stored securely using Google Firebase, a platform provided by Google LLC. Firebase applies industry-standard encryption in transit and at rest. Authentication is handled via Firebase Authentication using Google OAuth 2.0.</p>
-      <p>While we take reasonable measures to protect your data, no method of transmission over the internet is 100% secure. We encourage you to use a secure device and keep your account credentials safe.</p>
-
-      <h3>5. Third-Party Services</h3>
-      <p>Echo Path uses the following third-party services:</p>
-      <ul>
-        <li><strong>Google Firebase</strong> – for authentication and cloud data storage (<a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase Privacy Policy</a>)</li>
-        <li><strong>Google Sign-In (OAuth 2.0)</strong> – for account authentication (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>)</li>
-      </ul>
-      <p>We do not share your personal information with any other third parties.</p>
-
-      <h3>6. Guest Play</h3>
-      <p>You may play Echo Path as a Guest without creating an account. In Guest mode, your game progress is stored only on your local device and is not synced to the cloud. No personal information is collected in Guest mode.</p>
-
-      <h3>7. Data Retention and Deletion</h3>
-      <p>We retain your account data for as long as your account is active or as needed to provide the service. You may request deletion of your account and associated data at any time by contacting us at the email address below. We will process your request within 30 days.</p>
-      <p>For Guest users, all data is stored locally on your device and can be removed by uninstalling the App.</p>
-
-      <h3>8. Children's Privacy</h3>
-      <p>Echo Path is not directed at children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal information, please contact us and we will promptly delete it.</p>
-
-      <h3>9. Your Rights</h3>
-      <p>Depending on your location, you may have the following rights regarding your personal data:</p>
-      <ul>
-        <li>The right to access the personal data we hold about you</li>
-        <li>The right to correct inaccurate data</li>
-        <li>The right to request deletion of your data</li>
-        <li>The right to withdraw consent at any time</li>
-      </ul>
-      <p>To exercise any of these rights, please contact us at the email address below.</p>
-
-      <h3>10. Changes to This Policy</h3>
-      <p>We may update this Privacy Policy from time to time. We will notify you of significant changes by updating the effective date at the top of this page. Your continued use of the App after changes are posted constitutes your acceptance of the updated policy.</p>
-
-      <h3>11. Contact Us</h3>
-      <p>If you have any questions about this Privacy Policy, please contact us at:<br/>
-      <!-- Replace with your actual contact email -->
-      <a href="mailto:developer.hasso@gmail.com">developer.hasso@gmail.com</a></p>
 
     </div>
   </div>
 </section>
 
-<hr class="divider" />
-
-<!-- ── Terms of Service ────────────────────────────────────────────────────── -->
-<section id="terms">
-  <div class="container">
-    <span class="section-label">Legal</span>
-    <h2 class="section-title">Terms of Service</h2>
-    <span class="legal-date">Effective Date: March 4, 2026</span>
-
-    <div class="legal-content">
-
-      <h3>1. Acceptance of Terms</h3>
-      <p>By downloading, installing, or using Echo Path ("the App"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the App.</p>
-
-      <h3>2. Use of the App</h3>
-      <p>Echo Path is a mobile game application provided for personal, non-commercial entertainment purposes. You agree to use the App only for lawful purposes and in accordance with these Terms.</p>
-      <p>You agree not to:</p>
-      <ul>
-        <li>Reverse engineer, decompile, or modify the App or its source code</li>
-        <li>Use automated tools, bots, or scripts to interact with the App</li>
-        <li>Attempt to gain unauthorised access to any part of the App or its systems</li>
-        <li>Use the App in any way that could damage, disable, or impair its operation</li>
-        <li>Copy, reproduce, or redistribute any part of the App without our written permission</li>
-      </ul>
-
-      <h3>3. Accounts</h3>
-      <p>You may create an account by signing in with Google. You are responsible for maintaining the security of your account and for all activity that occurs under it. We reserve the right to suspend or terminate accounts that violate these Terms.</p>
-      <p>Guest mode is available without an account. Progress in Guest mode is stored locally and is not recoverable if the App is uninstalled.</p>
-
-      <h3>4. Virtual Currency and Items</h3>
-      <p>Echo Path may include virtual currencies (coins, gems) and virtual items (power-ups, skins). These have no real-world monetary value and cannot be exchanged for real money or transferred between accounts. Virtual items are provided for in-game use only and may be modified or removed at our discretion.</p>
-
-      <h3>5. Intellectual Property</h3>
-      <p>All content within Echo Path — including but not limited to graphics, animations, music, sound effects, game design, and code — is owned by or licensed to us and is protected by applicable intellectual property laws. You are granted a limited, non-exclusive, non-transferable licence to use the App for personal entertainment purposes only.</p>
-
-      <h3>6. Disclaimer of Warranties</h3>
-      <p>The App is provided "as is" and "as available" without warranties of any kind, either express or implied. We do not warrant that the App will be uninterrupted, error-free, or free of viruses or other harmful components. Your use of the App is at your own risk.</p>
-
-      <h3>7. Limitation of Liability</h3>
-      <p>To the fullest extent permitted by applicable law, we shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or in connection with your use of the App, including loss of data, loss of progress, or any other intangible losses.</p>
-
-      <h3>8. Modifications to the App and Terms</h3>
-      <p>We reserve the right to modify, update, suspend, or discontinue the App or any part of it at any time without notice. We may also update these Terms from time to time. Your continued use of the App following any changes constitutes your acceptance of the revised Terms.</p>
-
-      <h3>9. Governing Law</h3>
-      <p>These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which the developer is based, without regard to its conflict of law provisions.</p>
-
-      <h3>10. Contact Us</h3>
-      <p>If you have any questions about these Terms, please contact us at:<br/>
-      <!-- Replace with your actual contact email -->
-      <a href="mailto:developer.hasso@gmail.com">developer.hasso@gmail.com</a></p>
-
+<!-- ── Modal ── -->
+<div class="modal-overlay" id="step-modal" onclick="closeModalOnOverlay(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <span class="modal-step-label" id="modal-label">Step 1</span>
+    <h3 class="modal-title" id="modal-title">Watch</h3>
+    <div class="modal-canvas-wrap">
+      <canvas id="modal-canvas"></canvas>
     </div>
+    <p class="modal-desc" id="modal-desc">Description here.</p>
   </div>
-</section>
+</div>
 
-<!-- ── Footer ─────────────────────────────────────────────────────────────── -->
+<!-- ── Footer ── -->
 <footer>
   <div class="footer-inner">
-    <span class="footer-logo">Echo Path</span>
+    <div class="footer-logo">
+      <img src="icon.png" alt="Echo Path" class="footer-logo-img" />
+      Echo Path
+    </div>
     <ul class="footer-links">
       <li><a href="#home">Home</a></li>
       <li><a href="#features">Features</a></li>
@@ -761,73 +512,513 @@
   </div>
 </footer>
 
-<!-- ── Aurora Canvas Script ───────────────────────────────────────────────── -->
 <script>
-(function () {
+/* ═══════════════════════════════════════════════════════
+   AURORA BACKGROUND
+═══════════════════════════════════════════════════════ */
+(function() {
   const canvas = document.getElementById('aurora-canvas');
-  const ctx    = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d');
   let W, H, t = 0;
-
   const WAVES = [
-    { amp: 0.10, freq: 0.0020, speed: 0.22, yBase: 0.30, r: 0,   g: 217, b: 255, baseAlpha: 0.038, breathSpeed: 0.38, breathOffset: 0.00 },
-    { amp: 0.07, freq: 0.0031, speed: 0.15, yBase: 0.52, r: 0,   g: 255, b: 159, baseAlpha: 0.028, breathSpeed: 0.29, breathOffset: 1.10 },
-    { amp: 0.08, freq: 0.0016, speed: 0.18, yBase: 0.74, r: 0,   g: 200, b: 255, baseAlpha: 0.022, breathSpeed: 0.23, breathOffset: 2.30 },
+    {amp:.10,freq:.0020,speed:.22,yBase:.30,r:0,g:217,b:255,baseAlpha:.038,breathSpeed:.38,breathOffset:0},
+    {amp:.07,freq:.0031,speed:.15,yBase:.52,r:0,g:255,b:159,baseAlpha:.028,breathSpeed:.29,breathOffset:1.1},
+    {amp:.08,freq:.0016,speed:.18,yBase:.74,r:0,g:200,b:255,baseAlpha:.022,breathSpeed:.23,breathOffset:2.3},
   ];
-
-  const HARMONICS = [
-    { freqMul: 1.000, ampMul: 1.00, phaseOff: 0.0 },
-    { freqMul: 1.618, ampMul: 0.45, phaseOff: 1.2 },
-    { freqMul: 2.414, ampMul: 0.22, phaseOff: 2.7 },
-    { freqMul: 3.303, ampMul: 0.11, phaseOff: 0.9 },
-  ];
-
-  function resize() {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-
-  function waveY(wave, x) {
-    let y = 0;
-    HARMONICS.forEach(h => {
-      y += Math.sin(x * wave.freq * h.freqMul + t * wave.speed * h.freqMul + h.phaseOff) * h.ampMul;
-    });
-    return wave.yBase * H + y * wave.amp * H;
-  }
-
+  const H4 = [{freqMul:1,ampMul:1,phaseOff:0},{freqMul:1.618,ampMul:.45,phaseOff:1.2},{freqMul:2.414,ampMul:.22,phaseOff:2.7},{freqMul:3.303,ampMul:.11,phaseOff:.9}];
+  function resize() { W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+  function waveY(w,x) { let y=0; H4.forEach(h=>{ y+=Math.sin(x*w.freq*h.freqMul+t*w.speed*h.freqMul+h.phaseOff)*h.ampMul; }); return w.yBase*H+y*w.amp*H; }
   function draw() {
-    t += 0.016;
-    ctx.clearRect(0, 0, W, H);
-
-    WAVES.forEach(wave => {
-      const breath = 0.5 + 0.5 * Math.sin(t * wave.breathSpeed + wave.breathOffset);
-      const alpha  = wave.baseAlpha * (0.7 + 0.6 * breath);
-      const height = 0.13 * H * (0.85 + 0.3 * breath);
-
-      ctx.beginPath();
-      ctx.moveTo(0, H);
-      for (let x = 0; x <= W; x += 3) {
-        ctx.lineTo(x, waveY(wave, x));
-      }
-      ctx.lineTo(W, H);
-      ctx.closePath();
-
-      const grad = ctx.createLinearGradient(0, waveY(wave, W / 2) - height, 0, waveY(wave, W / 2) + height * 0.4);
-      grad.addColorStop(0,   `rgba(${wave.r},${wave.g},${wave.b},0)`);
-      grad.addColorStop(0.3, `rgba(${wave.r},${wave.g},${wave.b},${alpha})`);
-      grad.addColorStop(0.7, `rgba(${wave.r},${wave.g},${wave.b},${alpha * 0.5})`);
-      grad.addColorStop(1,   `rgba(${wave.r},${wave.g},${wave.b},0)`);
-      ctx.fillStyle = grad;
-      ctx.fill();
+    t+=.016; ctx.clearRect(0,0,W,H);
+    WAVES.forEach(w=>{
+      const br=.5+.5*Math.sin(t*w.breathSpeed+w.breathOffset);
+      const al=w.baseAlpha*(.7+.6*br), ht=.13*H*(.85+.3*br);
+      ctx.beginPath(); ctx.moveTo(0,H);
+      for(let x=0;x<=W;x+=3) ctx.lineTo(x,waveY(w,x));
+      ctx.lineTo(W,H); ctx.closePath();
+      const cy=waveY(w,W/2);
+      const g=ctx.createLinearGradient(0,cy-ht,0,cy+ht*.4);
+      g.addColorStop(0,`rgba(${w.r},${w.g},${w.b},0)`);
+      g.addColorStop(.3,`rgba(${w.r},${w.g},${w.b},${al})`);
+      g.addColorStop(.7,`rgba(${w.r},${w.g},${w.b},${al*.5})`);
+      g.addColorStop(1,`rgba(${w.r},${w.g},${w.b},0)`);
+      ctx.fillStyle=g; ctx.fill();
     });
-
     requestAnimationFrame(draw);
   }
-
-  window.addEventListener('resize', resize);
-  resize();
-  draw();
+  addEventListener('resize', resize); resize(); draw();
 })();
-</script>
 
+/* ═══════════════════════════════════════════════════════
+   SHARED PATH HELPER
+═══════════════════════════════════════════════════════ */
+function getDemoPath(W, H, scale) {
+  const s = scale || 1;
+  const cx = W/2, cy = H * 0.46;
+  const pts = [];
+  const r1 = Math.min(W,H) * 0.34 * s;
+  const r2 = r1 * 0.48;
+  for (let i = 0; i < 10; i++) {
+    const a = (i/10)*Math.PI*2 - Math.PI/2;
+    const r = i%2===0 ? r1 : r2;
+    pts.push([cx + Math.cos(a)*r, cy + Math.sin(a)*r]);
+  }
+  pts.push(pts[0]);
+  return pts;
+}
+
+function drawPath(ctx, pts, progress, color, glow, lineWidth) {
+  if (pts.length < 2) return;
+  const total = pts.length - 1;
+  const drawn = progress * total;
+  const full  = Math.floor(drawn);
+  const frac  = drawn - full;
+  ctx.save();
+  if (glow) { ctx.shadowColor = color; ctx.shadowBlur = 14; }
+  ctx.strokeStyle = color;
+  ctx.lineWidth   = lineWidth || 2.5;
+  ctx.lineCap     = 'round';
+  ctx.lineJoin    = 'round';
+  ctx.beginPath();
+  ctx.moveTo(pts[0][0], pts[0][1]);
+  for (let i = 1; i <= full; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+  if (frac > 0 && full < total) {
+    const ix = pts[full][0] + (pts[full+1][0]-pts[full][0])*frac;
+    const iy = pts[full][1] + (pts[full+1][1]-pts[full][1])*frac;
+    ctx.lineTo(ix, iy);
+  }
+  ctx.stroke();
+  ctx.restore();
+}
+
+/* ═══════════════════════════════════════════════════════
+   PHONE MOCKUP GAMEPLAY DEMO
+═══════════════════════════════════════════════════════ */
+(function() {
+  const canvas = document.getElementById('gameplay-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  canvas.width  = 248;
+  canvas.height = 496;
+  const W = canvas.width, H = canvas.height;
+  const PATH = getDemoPath(W, H, 0.88);
+
+  // Phase config: [label, color, duration frames]
+  const PHASES = [
+    {id:'watch',    label:'WATCH',    dur:160},
+    {id:'wait',     label:'REMEMBER', dur: 60},
+    {id:'trace',    label:'DRAW',     dur:160},
+    {id:'score',    label:'SCORED',   dur:110},
+  ];
+  let phaseIdx = 0, phaseT = 0;
+
+  // Player trace path with slight wobble
+  let playerPath = [];
+  function buildPlayerPath() {
+    playerPath = PATH.map(([x,y]) => [
+      x + (Math.random()-.5)*7,
+      y + (Math.random()-.5)*7
+    ]);
+  }
+  buildPlayerPath();
+
+  function easeInOut(t) { return t<.5 ? 2*t*t : -1+(4-2*t)*t; }
+
+  function drawFrame() {
+    const ph = PHASES[phaseIdx];
+    const progress = Math.min(1, phaseT / ph.dur);
+
+    // Background
+    ctx.fillStyle = '#06090f';
+    ctx.fillRect(0, 0, W, H);
+
+    // Subtle grid
+    ctx.strokeStyle = 'rgba(0,217,255,0.03)';
+    ctx.lineWidth = 1;
+    for (let x=0; x<W; x+=28) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y=0; y<H; y+=28) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    // Phase-specific rendering
+    if (ph.id === 'watch') {
+      const p = easeInOut(Math.min(1, phaseT / (ph.dur * 0.85)));
+      // Ghost glow
+      drawPath(ctx, PATH, 1, 'rgba(0,217,255,0.07)', false, 6);
+      // Drawing path
+      drawPath(ctx, PATH, p, '#00D9FF', true, 2.8);
+      // Moving dot at tip
+      if (p < 1) {
+        const idx = Math.min(PATH.length-2, Math.floor(p*(PATH.length-1)));
+        const fr  = p*(PATH.length-1) - idx;
+        const dx  = PATH[idx][0] + (PATH[idx+1][0]-PATH[idx][0])*fr;
+        const dy  = PATH[idx][1] + (PATH[idx+1][1]-PATH[idx][1])*fr;
+        ctx.save(); ctx.shadowColor='#00D9FF'; ctx.shadowBlur=16;
+        ctx.fillStyle='#00D9FF'; ctx.beginPath(); ctx.arc(dx,dy,5,0,Math.PI*2); ctx.fill();
+        ctx.restore();
+      }
+    } else if (ph.id === 'wait') {
+      // Full path fading out
+      const alpha = Math.max(0, 1 - progress*1.4);
+      drawPath(ctx, PATH, 1, `rgba(0,217,255,${alpha * 0.9})`, false, 2.5);
+      // "!" pulsing text
+      const pulse = .6 + .4*Math.sin(phaseT*.18);
+      ctx.save();
+      ctx.fillStyle = `rgba(0,217,255,${pulse*0.9})`;
+      ctx.font = 'bold 13px Inter,sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('DRAW FROM MEMORY', W/2, H*0.88);
+      ctx.restore();
+    } else if (ph.id === 'trace') {
+      // Ghost path (very faint)
+      drawPath(ctx, PATH, 1, 'rgba(0,217,255,0.1)', false, 5);
+      // Player trace
+      const p = easeInOut(Math.min(1, phaseT / (ph.dur * 0.85)));
+      drawPath(ctx, playerPath, p, '#00FF9F', true, 2.8);
+      if (p < 1) {
+        const idx = Math.min(playerPath.length-2, Math.floor(p*(playerPath.length-1)));
+        const fr  = p*(playerPath.length-1) - idx;
+        const dx  = playerPath[idx][0] + (playerPath[idx+1][0]-playerPath[idx][0])*fr;
+        const dy  = playerPath[idx][1] + (playerPath[idx+1][1]-playerPath[idx][1])*fr;
+        ctx.save(); ctx.shadowColor='#00FF9F'; ctx.shadowBlur=14;
+        ctx.fillStyle='#00FF9F'; ctx.beginPath(); ctx.arc(dx,dy,5,0,Math.PI*2); ctx.fill();
+        ctx.restore();
+      }
+    } else if (ph.id === 'score') {
+      // Show both paths
+      drawPath(ctx, PATH, 1, 'rgba(0,217,255,0.25)', false, 2.5);
+      drawPath(ctx, playerPath, 1, 'rgba(0,255,159,0.55)', false, 2.5);
+      // Score card
+      const fadeIn = Math.min(1, progress*3);
+      const cardW = 160, cardH = 100, cx2 = W/2, cy2 = H*0.44;
+      ctx.save();
+      ctx.globalAlpha = fadeIn;
+      ctx.fillStyle = 'rgba(6,9,15,0.88)';
+      roundRect(ctx, cx2-cardW/2, cy2-cardH/2, cardW, cardH, 14);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(0,217,255,0.2)'; ctx.lineWidth=1;
+      roundRect(ctx, cx2-cardW/2, cy2-cardH/2, cardW, cardH, 14);
+      ctx.stroke();
+      // Accuracy
+      const acc = Math.round(progress < 0.5 ? progress*2*89 : 89);
+      ctx.fillStyle = '#00D9FF'; ctx.font = 'bold 28px Inter,sans-serif'; ctx.textAlign='center';
+      ctx.fillText(acc+'%', cx2, cy2 + 6);
+      ctx.fillStyle='rgba(240,244,255,0.5)'; ctx.font='11px Inter,sans-serif';
+      ctx.fillText('ACCURACY', cx2, cy2 - 18);
+      // Stars
+      const starsToShow = progress > 0.35 ? (progress > 0.65 ? (progress > 0.85 ? 3 : 2) : 1) : 0;
+      const starSpacing = 26, starStart = cx2 - (2*starSpacing)/2;
+      for (let s=0; s<3; s++) {
+        const sx = starStart + s*starSpacing;
+        const sy = cy2 + 32;
+        ctx.fillStyle = s < starsToShow ? '#FFD700' : 'rgba(255,255,255,0.1)';
+        ctx.font = '18px sans-serif';
+        ctx.fillText('★', sx, sy);
+      }
+      ctx.restore();
+    }
+
+    // Phase label pill
+    const labelAlpha = ph.id === 'score' ? Math.min(1, progress*3) : 1;
+    const labelColors = {watch:'#00D9FF', wait:'#00FF9F', trace:'#00FF9F', score:'#FFD700'};
+    ctx.save();
+    ctx.globalAlpha = labelAlpha;
+    ctx.fillStyle = 'rgba(6,9,15,0.75)';
+    const lw = 80; const lh = 22; const lx = W/2-lw/2; const ly = 28;
+    roundRect(ctx, lx, ly, lw, lh, 11); ctx.fill();
+    ctx.strokeStyle = labelColors[ph.id]+'44'; ctx.lineWidth=1;
+    roundRect(ctx, lx, ly, lw, lh, 11); ctx.stroke();
+    ctx.fillStyle = labelColors[ph.id];
+    ctx.font = 'bold 10px Inter,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(ph.label, W/2, ly+15);
+    ctx.restore();
+
+    // Advance phase
+    phaseT++;
+    if (phaseT > ph.dur + 20) {
+      phaseT = 0;
+      phaseIdx = (phaseIdx+1) % PHASES.length;
+      if (PHASES[phaseIdx].id === 'trace') buildPlayerPath();
+    }
+    requestAnimationFrame(drawFrame);
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.arcTo(x+w,y,x+w,y+r,r);
+    ctx.lineTo(x+w,y+h-r); ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+    ctx.lineTo(x+r,y+h); ctx.arcTo(x,y+h,x,y+h-r,r);
+    ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r); ctx.closePath();
+  }
+
+  drawFrame();
+})();
+
+/* ═══════════════════════════════════════════════════════
+   STEP CARD MINI ANIMATIONS
+═══════════════════════════════════════════════════════ */
+(function() {
+  const configs = [
+    {id:'watch',   fn: drawWatchMini},
+    {id:'remember',fn: drawRememberMini},
+    {id:'trace',   fn: drawTraceMini},
+    {id:'score',   fn: drawScoreMini},
+  ];
+  configs.forEach(({id, fn}) => {
+    const canvas = document.getElementById('step-canvas-'+id);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const PATH = getDemoPath(W, H, 0.72);
+    let t = 0;
+    function loop() { fn(ctx, t, W, H, PATH); t++; requestAnimationFrame(loop); }
+    loop();
+  });
+
+  function bgFill(ctx, W, H) {
+    ctx.fillStyle='#06090f'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='rgba(0,217,255,0.025)'; ctx.lineWidth=1;
+    for(let x=0;x<W;x+=20){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<H;y+=20){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  }
+
+  function drawWatchMini(ctx, t, W, H, PATH) {
+    bgFill(ctx,W,H);
+    const cycle = t % 120;
+    const p = Math.min(1, cycle/80);
+    drawPath(ctx, PATH, 1,'rgba(0,217,255,0.06)',false,4);
+    drawPath(ctx, PATH, p, '#00D9FF', true, 2);
+    if(p<1){
+      const i=Math.min(PATH.length-2,Math.floor(p*(PATH.length-1)));
+      const f=p*(PATH.length-1)-i;
+      const dx=PATH[i][0]+(PATH[i+1][0]-PATH[i][0])*f;
+      const dy=PATH[i][1]+(PATH[i+1][1]-PATH[i][1])*f;
+      ctx.save();ctx.shadowColor='#00D9FF';ctx.shadowBlur=12;
+      ctx.fillStyle='#00D9FF';ctx.beginPath();ctx.arc(dx,dy,4,0,Math.PI*2);ctx.fill();ctx.restore();
+    }
+  }
+
+  function drawRememberMini(ctx, t, W, H, PATH) {
+    bgFill(ctx,W,H);
+    const cycle = t % 120;
+    const alpha = cycle < 60 ? 1 : Math.max(0,1-(cycle-60)/30);
+    drawPath(ctx,PATH,1,`rgba(0,217,255,${alpha*0.85})`,false,2);
+    if(alpha < 0.3){
+      const pulse=.5+.5*Math.sin(t*.15);
+      ctx.fillStyle=`rgba(0,255,159,${pulse*0.7})`;
+      ctx.font='bold 10px Inter,sans-serif'; ctx.textAlign='center';
+      ctx.fillText('YOUR TURN!', W/2, H*0.88);
+    }
+  }
+
+  function drawTraceMini(ctx, t, W, H, PATH) {
+    bgFill(ctx,W,H);
+    drawPath(ctx,PATH,1,'rgba(0,217,255,0.1)',false,4);
+    const p=Math.min(1,(t%120)/90);
+    const playerP=PATH.map(([x,y])=>[x+(Math.sin(t*.05+x)*.5*5),y+(Math.cos(t*.05+y)*.5*5)]);
+    drawPath(ctx,playerP,p,'#00FF9F',true,2);
+  }
+
+  function drawScoreMini(ctx, t, W, H, PATH) {
+    bgFill(ctx,W,H);
+    drawPath(ctx,PATH,1,'rgba(0,217,255,0.2)',false,2);
+    const acc=Math.round(85+8*Math.sin(t*.04));
+    ctx.fillStyle='#00D9FF'; ctx.font='bold 20px Inter,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(acc+'%', W/2, H/2+4);
+    ctx.fillStyle='rgba(240,244,255,0.4)'; ctx.font='9px Inter,sans-serif';
+    ctx.fillText('ACCURACY', W/2, H/2-14);
+    const stars=acc>=90?3:acc>=75?2:1;
+    for(let s=0;s<3;s++){
+      ctx.fillStyle=s<stars?'#FFD700':'rgba(255,255,255,0.1)';
+      ctx.font='13px sans-serif'; ctx.fillText('★',W/2-18+s*18,H/2+24);
+    }
+  }
+})();
+
+/* ═══════════════════════════════════════════════════════
+   HOW-TO-PLAY MODAL
+═══════════════════════════════════════════════════════ */
+const MODAL_CONFIG = {
+  watch: {
+    label:'Step 1 — Watch',
+    title:'The Echo Plays',
+    desc:'The echo path draws itself on screen, segment by segment. Watch every curve and corner — you\'ll need to reproduce it from memory. The path glows cyan as it animates so nothing is missed.',
+    fn: modalWatch,
+  },
+  remember: {
+    label:'Step 2 — Remember',
+    title:'Hold It In Your Mind',
+    desc:'The path vanishes. Your turn begins. Hold the shape in your mind — its start point, its curves, where it ends. The clock is ticking. The clearer your mental image, the more accurate your trace.',
+    fn: modalRemember,
+  },
+  trace: {
+    label:'Step 3 — Trace',
+    title:'Draw From Memory',
+    desc:'Drag your finger (or mouse) to reproduce the path you watched. A faint ghost may help guide you. Every deviation costs you accuracy — smooth, confident strokes score the highest.',
+    fn: modalTrace,
+  },
+  score: {
+    label:'Step 4 — Score',
+    title:'See How You Did',
+    desc:'Your accuracy is calculated and stars are awarded. Hit 92%+ for 3 stars. Earn coins with each success. Chain levels together for win streak bonuses. Try to beat your own personal best.',
+    fn: modalScore,
+  },
+};
+
+let modalAnimHandle = null;
+let currentModal    = null;
+
+function openModal(type) {
+  const cfg = MODAL_CONFIG[type];
+  if (!cfg) return;
+  document.getElementById('modal-label').textContent = cfg.label;
+  document.getElementById('modal-title').textContent = cfg.title;
+  document.getElementById('modal-desc').textContent  = cfg.desc;
+
+  const overlay = document.getElementById('step-modal');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  currentModal = type;
+  const canvas = document.getElementById('modal-canvas');
+  canvas.width  = canvas.offsetWidth  || 480;
+  canvas.height = canvas.offsetHeight || 260;
+
+  if (modalAnimHandle) cancelAnimationFrame(modalAnimHandle);
+  let t = 0;
+  const ctx  = canvas.getContext('2d');
+  const W    = canvas.width;
+  const H    = canvas.height;
+  const PATH = getDemoPath(W, H, 0.78);
+
+  function loop() {
+    if (currentModal !== type) return;
+    cfg.fn(ctx, t, W, H, PATH);
+    t++;
+    modalAnimHandle = requestAnimationFrame(loop);
+  }
+  loop();
+}
+
+function closeModal() {
+  document.getElementById('step-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  currentModal = null;
+  if (modalAnimHandle) { cancelAnimationFrame(modalAnimHandle); modalAnimHandle = null; }
+}
+
+function closeModalOnOverlay(e) {
+  if (e.target === document.getElementById('step-modal')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function mBg(ctx, W, H) {
+  ctx.fillStyle='#06090f'; ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='rgba(0,217,255,0.03)'; ctx.lineWidth=1;
+  for(let x=0;x<W;x+=28){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<H;y+=28){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+}
+
+function modalWatch(ctx, t, W, H, PATH) {
+  mBg(ctx,W,H);
+  const cycle=t%200, p=Math.min(1,cycle/140);
+  drawPath(ctx,PATH,1,'rgba(0,217,255,0.07)',false,7);
+  drawPath(ctx,PATH,p,'#00D9FF',true,3);
+  if(p<1){
+    const i=Math.min(PATH.length-2,Math.floor(p*(PATH.length-1)));
+    const f=p*(PATH.length-1)-i;
+    const dx=PATH[i][0]+(PATH[i+1][0]-PATH[i][0])*f;
+    const dy=PATH[i][1]+(PATH[i+1][1]-PATH[i][1])*f;
+    ctx.save();ctx.shadowColor='#00D9FF';ctx.shadowBlur=20;
+    ctx.fillStyle='#00D9FF';ctx.beginPath();ctx.arc(dx,dy,6,0,Math.PI*2);ctx.fill();ctx.restore();
+  }
+  // progress bar
+  const barW=200, barX=W/2-barW/2, barY=H-22;
+  ctx.fillStyle='rgba(0,217,255,0.1)'; ctx.beginPath();
+  ctx.roundRect(barX,barY,barW,6,3); ctx.fill();
+  const remain=Math.max(0,1-p);
+  ctx.fillStyle='#00D9FF'; ctx.beginPath();
+  ctx.roundRect(barX,barY,barW*remain,6,3); ctx.fill();
+  ctx.fillStyle='rgba(240,244,255,0.35)'; ctx.font='10px Inter,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('WATCH PHASE — Follow the path', W/2, H-30);
+}
+
+function modalRemember(ctx, t, W, H, PATH) {
+  mBg(ctx,W,H);
+  const cycle=t%180;
+  const alpha=cycle<90?1:Math.max(0,1-(cycle-90)/50);
+  drawPath(ctx,PATH,1,`rgba(0,217,255,${alpha*0.9})`,cycle<90,3);
+  // countdown
+  const sec=Math.max(0,3-Math.floor(cycle/60));
+  if(sec>0&&alpha<0.5){
+    const pulse=.7+.3*Math.sin(t*.2);
+    ctx.fillStyle=`rgba(0,217,255,${pulse})`;
+    ctx.font='bold 48px Inter,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(sec, W/2, H/2+16);
+    ctx.font='11px Inter,sans-serif'; ctx.fillStyle='rgba(240,244,255,0.4)';
+    ctx.fillText('YOUR TURN IN...', W/2, H/2-28);
+  }
+  if(alpha===0){
+    const pulse=.6+.4*Math.sin(t*.14);
+    ctx.fillStyle=`rgba(0,255,159,${pulse})`;
+    ctx.font='bold 14px Inter,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('GO! DRAW IT FROM MEMORY', W/2, H/2+6);
+  }
+}
+
+function modalTrace(ctx, t, W, H, PATH) {
+  mBg(ctx,W,H);
+  drawPath(ctx,PATH,1,'rgba(0,217,255,0.1)',false,6);
+  const cycle=t%200, p=Math.min(1,cycle/150);
+  const pPath=PATH.map(([x,y],i)=>[x+Math.sin(t*.04+i)*.5*7,y+Math.cos(t*.04+i)*.5*7]);
+  drawPath(ctx,pPath,p,'#00FF9F',true,3);
+  if(p<1){
+    const i=Math.min(pPath.length-2,Math.floor(p*(pPath.length-1)));
+    const f=p*(pPath.length-1)-i;
+    const dx=pPath[i][0]+(pPath[i+1][0]-pPath[i][0])*f;
+    const dy=pPath[i][1]+(pPath[i+1][1]-pPath[i][1])*f;
+    ctx.save(); ctx.shadowColor='#00FF9F'; ctx.shadowBlur=18;
+    ctx.fillStyle='#00FF9F'; ctx.beginPath(); ctx.arc(dx,dy,6,0,Math.PI*2); ctx.fill();
+    // finger icon
+    ctx.fillStyle='rgba(255,255,255,0.6)'; ctx.font='16px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('☝', dx, dy-16);
+    ctx.restore();
+  }
+  const accVal=Math.round(75+15*p);
+  ctx.fillStyle='rgba(0,255,159,0.7)'; ctx.font='bold 12px Inter,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('ACCURACY: '+accVal+'%', W/2, H-18);
+}
+
+function modalScore(ctx, t, W, H, PATH) {
+  mBg(ctx,W,H);
+  drawPath(ctx,PATH,1,'rgba(0,217,255,0.22)',false,2.5);
+  const pPath=PATH.map(([x,y])=>[x+(Math.random()-.5)*3,y+(Math.random()-.5)*3]);
+  drawPath(ctx,pPath,1,'rgba(0,255,159,0.55)',false,2.5);
+  // Score card
+  const cycle=t%240, fadeIn=Math.min(1,cycle/40);
+  const cW=200,cH=120,cx=W/2,cy=H/2+10;
+  ctx.save(); ctx.globalAlpha=fadeIn;
+  ctx.fillStyle='rgba(6,9,15,0.9)';
+  ctx.beginPath(); ctx.roundRect(cx-cW/2,cy-cH/2,cW,cH,16); ctx.fill();
+  ctx.strokeStyle='rgba(0,217,255,0.18)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.roundRect(cx-cW/2,cy-cH/2,cW,cH,16); ctx.stroke();
+  // accuracy count-up
+  const acc=Math.round(Math.min(89,cycle/240*2*89));
+  ctx.fillStyle='rgba(240,244,255,0.45)'; ctx.font='10px Inter,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('ACCURACY', cx, cy-30);
+  ctx.fillStyle='#00D9FF'; ctx.font='bold 36px Inter,sans-serif';
+  ctx.fillText(acc+'%', cx, cy+6);
+  // stars
+  const stars=acc>=85?3:acc>=65?2:1;
+  for(let s=0;s<3;s++){
+    const starScale=s<stars?1:0.7;
+    ctx.fillStyle=s<stars?'#FFD700':'rgba(255,255,255,0.1)';
+    ctx.font=`${20*starScale}px sans-serif`;
+    ctx.fillText('★',cx-24+s*24,cy+40);
+  }
+  ctx.restore();
+  ctx.fillStyle='rgba(240,244,255,0.3)'; ctx.font='10px Inter,sans-serif'; ctx.textAlign='center';
+  ctx.fillText(acc>=92?'🎯 PERFECT!':acc>=75?'⭐ GREAT!':'👍 KEEP GOING', cx, H-16);
+}
+</script>
 </body>
 </html>

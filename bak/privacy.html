@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy – Echo Path</title>
+  <meta name="description" content="Echo Path Privacy Policy – how we collect, use, and protect your data." />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cyan:   #00D9FF;
+      --green:  #00FF9F;
+      --bg:     #080c18;
+      --border: rgba(0,217,255,0.15);
+      --text:   #F0F4FF;
+      --muted:  rgba(240,244,255,0.55);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Aurora background */
+    #aurora-canvas {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0; opacity: 0.55;
+    }
+
+    /* Constellation network */
+    #constellation-canvas {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0; opacity: 1;
+    }
+
+    /* Top bar — logo left, close button right */
+    .top-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(8,12,24,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px;
+    }
+    .top-logo {
+      display: flex; align-items: center; gap: 9px;
+      font-size: 17px; font-weight: 700;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-decoration: none; letter-spacing: -0.3px;
+    }
+    .top-logo-img { width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0; display: block; }
+    .close-btn {
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(0,217,255,0.08);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px; font-weight: 500;
+      padding: 7px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .close-btn:hover {
+      background: rgba(0,217,255,0.15);
+      border-color: var(--cyan);
+      color: var(--text);
+    }
+    .close-btn svg { flex-shrink: 0; }
+
+    /* Content */
+    .page-wrap {
+      max-width: 760px; margin: 0 auto;
+      padding: 88px 24px 72px;
+      position: relative; z-index: 1;
+    }
+
+    .section-label {
+      display: block; font-size: 11px; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 12px;
+    }
+    h1 {
+      font-size: clamp(26px, 4vw, 40px); font-weight: 700;
+      letter-spacing: -1px; margin-bottom: 14px;
+    }
+    .legal-date {
+      display: inline-block; font-size: 12px; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 6px;
+      padding: 4px 10px; margin-bottom: 40px;
+    }
+    h3 {
+      font-size: 17px; font-weight: 600; color: var(--cyan);
+      margin: 34px 0 10px;
+    }
+    p { font-size: 14px; color: var(--muted); margin-bottom: 12px; line-height: 1.8; }
+    ul { padding-left: 20px; margin-bottom: 12px; }
+    ul li { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 4px; }
+    strong { color: rgba(240,244,255,0.8); font-weight: 600; }
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Bottom close button */
+    .bottom-close {
+      display: flex; justify-content: center;
+      margin-top: 48px; padding-bottom: 16px;
+    }
+    .bottom-close-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px;
+      background: rgba(0,217,255,0.08);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px; font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .bottom-close-btn:hover {
+      background: rgba(0,217,255,0.14);
+      border-color: var(--cyan);
+      color: var(--text);
+    }
+
+    @media (max-width: 600px) {
+      .page-wrap { padding: 80px 18px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="aurora-canvas"></canvas>
+<canvas id="constellation-canvas"></canvas>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <span class="top-logo">
+    <img src="icon.png" alt="Echo Path" class="top-logo-img" />
+    Echo Path
+  </span>
+  <button class="close-btn" onclick="window.close()">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+    Close
+  </button>
+</div>
+
+<!-- Content -->
+<div class="page-wrap">
+  <span class="section-label">Legal</span>
+  <h1>Privacy Policy</h1>
+  <span class="legal-date">Effective Date: March 4, 2026</span>
+
+  <h3>1. Introduction</h3>
+  <p>Welcome to Echo Path ("the App", "we", "our", or "us"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains what information we collect, how we use it, and what rights you have in relation to it.</p>
+  <p>By using Echo Path, you agree to the collection and use of information as described in this policy.</p>
+
+  <h3>2. Information We Collect</h3>
+  <p>We collect the following types of information:</p>
+  <ul>
+    <li><strong>Account Information:</strong> When you sign in with Google, we receive your name and email address provided by Google's OAuth service. We do not receive or store your Google password.</li>
+    <li><strong>Game Progress Data:</strong> Level completion results, star ratings, accuracy scores, achievement records, coin and gem balances, daily challenge history, and settings preferences.</li>
+    <li><strong>Device Information:</strong> Basic technical information such as device type and operating system version, used solely for ensuring compatibility and diagnosing issues.</li>
+  </ul>
+  <p>We do not collect payment information, precise location data, contacts, photos, or any other sensitive personal data.</p>
+
+  <h3>3. How We Use Your Information</h3>
+  <ul>
+    <li>To provide and maintain the App and its features</li>
+    <li>To sync your game progress across devices via cloud save</li>
+    <li>To display your achievements, statistics, and personalised game state</li>
+    <li>To improve the App's performance and fix bugs</li>
+    <li>To communicate important updates about the App (if you have an account)</li>
+  </ul>
+  <p>We do not use your data for advertising, profiling, or any purpose unrelated to providing the App.</p>
+
+  <h3>4. Data Storage and Security</h3>
+  <p>Your game data is stored securely using Google Firebase, a platform provided by Google LLC. Firebase applies industry-standard encryption in transit and at rest. Authentication is handled via Firebase Authentication using Google OAuth 2.0.</p>
+  <p>While we take reasonable measures to protect your data, no method of transmission over the internet is 100% secure. We encourage you to use a secure device and keep your account credentials safe.</p>
+
+  <h3>5. Third-Party Services</h3>
+  <p>Echo Path uses the following third-party services:</p>
+  <ul>
+    <li><strong>Google Firebase</strong> – for authentication and cloud data storage (<a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase Privacy Policy</a>)</li>
+    <li><strong>Google Sign-In (OAuth 2.0)</strong> – for account authentication (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>)</li>
+  </ul>
+  <p>We do not share your personal information with any other third parties.</p>
+
+  <h3>6. Guest Play</h3>
+  <p>You may play Echo Path as a Guest without creating an account. In Guest mode, your game progress is stored only on your local device and is not synced to the cloud. No personal information is collected in Guest mode.</p>
+
+  <h3>7. Data Retention and Deletion</h3>
+  <p>We retain your account data for as long as your account is active or as needed to provide the service. You may request deletion of your account and associated data at any time by contacting us at the email address below. We will process your request within 30 days.</p>
+  <p>For Guest users, all data is stored locally on your device and can be removed by uninstalling the App.</p>
+
+  <h3>8. Children's Privacy</h3>
+  <p>Echo Path is not directed at children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal information, please contact us and we will promptly delete it.</p>
+
+  <h3>9. Your Rights</h3>
+  <p>Depending on your location, you may have the following rights regarding your personal data:</p>
+  <ul>
+    <li>The right to access the personal data we hold about you</li>
+    <li>The right to correct inaccurate data</li>
+    <li>The right to request deletion of your data</li>
+    <li>The right to withdraw consent at any time</li>
+  </ul>
+  <p>To exercise any of these rights, please contact us at the email address below.</p>
+
+  <h3>10. Changes to This Policy</h3>
+  <p>We may update this Privacy Policy from time to time. We will notify you of significant changes by updating the effective date at the top of this page. Your continued use of the App after changes are posted constitutes your acceptance of the updated policy.</p>
+
+  <h3>11. Contact Us</h3>
+  <p>If you have any questions about this Privacy Policy, please contact us at:<br/>
+  <a href="mailto:developer.hasso@gmail.com">developer.hasso@gmail.com</a></p>
+
+  <!-- Bottom close -->
+  <div class="bottom-close">
+    <button class="bottom-close-btn" onclick="window.close()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      Close Window
+    </button>
+  </div>
+</div>
+
+<script>
+(function () {
+  const canvas = document.getElementById('aurora-canvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H, t  = 0;
+  const WAVES  = [
+    { amp: 0.10, freq: 0.0020, speed: 0.22, yBase: 0.30, r: 0, g: 217, b: 255, baseAlpha: 0.038, breathSpeed: 0.38, breathOffset: 0.00 },
+    { amp: 0.07, freq: 0.0031, speed: 0.15, yBase: 0.52, r: 0, g: 255, b: 159, baseAlpha: 0.028, breathSpeed: 0.29, breathOffset: 1.10 },
+    { amp: 0.08, freq: 0.0016, speed: 0.18, yBase: 0.74, r: 0, g: 200, b: 255, baseAlpha: 0.022, breathSpeed: 0.23, breathOffset: 2.30 },
+  ];
+  const HARMONICS = [
+    { freqMul: 1.000, ampMul: 1.00, phaseOff: 0.0 },
+    { freqMul: 1.618, ampMul: 0.45, phaseOff: 1.2 },
+    { freqMul: 2.414, ampMul: 0.22, phaseOff: 2.7 },
+    { freqMul: 3.303, ampMul: 0.11, phaseOff: 0.9 },
+  ];
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  function waveY(wave, x) {
+    let y = 0;
+    HARMONICS.forEach(h => { y += Math.sin(x * wave.freq * h.freqMul + t * wave.speed * h.freqMul + h.phaseOff) * h.ampMul; });
+    return wave.yBase * H + y * wave.amp * H;
+  }
+  function draw() {
+    t += 0.016; ctx.clearRect(0, 0, W, H);
+    WAVES.forEach(wave => {
+      const breath = 0.5 + 0.5 * Math.sin(t * wave.breathSpeed + wave.breathOffset);
+      const alpha  = wave.baseAlpha * (0.7 + 0.6 * breath);
+      const height = 0.13 * H * (0.85 + 0.3 * breath);
+      ctx.beginPath(); ctx.moveTo(0, H);
+      for (let x = 0; x <= W; x += 3) ctx.lineTo(x, waveY(wave, x));
+      ctx.lineTo(W, H); ctx.closePath();
+      const grad = ctx.createLinearGradient(0, waveY(wave, W / 2) - height, 0, waveY(wave, W / 2) + height * 0.4);
+      grad.addColorStop(0,   `rgba(${wave.r},${wave.g},${wave.b},0)`);
+      grad.addColorStop(0.3, `rgba(${wave.r},${wave.g},${wave.b},${alpha})`);
+      grad.addColorStop(0.7, `rgba(${wave.r},${wave.g},${wave.b},${alpha * 0.5})`);
+      grad.addColorStop(1,   `rgba(${wave.r},${wave.g},${wave.b},0)`);
+      ctx.fillStyle = grad; ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize', resize); resize(); draw();
+})();
+
+/* ── Constellation Network ── */
+(function() {
+  const canvas = document.getElementById('constellation-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, t = 0;
+  const COUNT  = 58;
+  const LINK_D = 155;
+  const LINK_D2 = LINK_D * LINK_D;
+  let nodes = [];
+  function init() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    nodes = Array.from({length: COUNT}, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.30, vy: (Math.random() - 0.5) * 0.30,
+      r: Math.random() * 1.3 + 0.7,
+      cyan: Math.random() < 0.62,
+      phase: Math.random() * Math.PI * 2,
+    }));
+  }
+  function draw() {
+    t += 0.016;
+    ctx.clearRect(0, 0, W, H);
+    nodes.forEach(n => {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < -40) n.x = W+40; else if (n.x > W+40) n.x = -40;
+      if (n.y < -40) n.y = H+40; else if (n.y > H+40) n.y = -40;
+    });
+    for (let i = 0; i < nodes.length; i++) {
+      const a = nodes[i];
+      for (let j = i+1; j < nodes.length; j++) {
+        const b = nodes[j];
+        const dx = a.x-b.x, dy = a.y-b.y, d2 = dx*dx+dy*dy;
+        if (d2 < LINK_D2) {
+          const alpha = (1 - Math.sqrt(d2)/LINK_D) * 0.13;
+          const [r,g,bl] = (!a.cyan && !b.cyan) ? [0,255,159] : [0,217,255];
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+          ctx.strokeStyle = `rgba(${r},${g},${bl},${alpha})`;
+          ctx.lineWidth = 0.7; ctx.stroke();
+        }
+      }
+    }
+    nodes.forEach(n => {
+      const pulse = 0.55 + 0.45*Math.sin(t*0.75+n.phase);
+      const [r,g,b] = n.cyan ? [0,217,255] : [0,255,159];
+      const nr = n.r*(0.85+0.3*pulse);
+      const grad = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,nr*6);
+      grad.addColorStop(0,   `rgba(${r},${g},${b},${0.22*pulse})`);
+      grad.addColorStop(0.4, `rgba(${r},${g},${b},${0.08*pulse})`);
+      grad.addColorStop(1,   `rgba(${r},${g},${b},0)`);
+      ctx.beginPath(); ctx.arc(n.x,n.y,nr*6,0,Math.PI*2);
+      ctx.fillStyle=grad; ctx.fill();
+      ctx.save();
+      ctx.shadowColor=`rgb(${r},${g},${b})`; ctx.shadowBlur=6*pulse;
+      ctx.fillStyle=`rgba(${r},${g},${b},${0.65*pulse})`;
+      ctx.beginPath(); ctx.arc(n.x,n.y,nr,0,Math.PI*2); ctx.fill();
+      ctx.restore();
+    });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize', init);
+  init(); draw();
+})();
+</script>
+</body>
+</html>

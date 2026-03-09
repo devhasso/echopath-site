@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs>
+  <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur stdDeviation="2.2" result="blur"/>
+    <feFlood flood-color="#FF3B5C" flood-opacity="0.55" result="clr"/>
+    <feComposite in="clr" in2="blur" operator="in" result="shadow"/>
+    <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#FF6060"/>
+    <stop offset="100%" stop-color="#FF3B5C"/>
+  </linearGradient>
+  </defs>
+  <!-- Heart shape — solid red -->
+  <path d="M12 20.35L10.55 19.03C5.4 14.36 2 11.28 2 7.5C2 4.42 4.42 2 7.5 2C9.24 2 10.91 2.81 12 4.09C13.09 2.81 14.76 2 16.5 2C19.58 2 22 4.42 22 7.5C22 11.28 18.6 14.36 13.45 19.03L12 20.35Z"
+    fill="url(#hg)" filter="url(#glow)"/>
+  <!-- Highlight sheen -->
+  <ellipse cx="9" cy="7" rx="2.2" ry="1.3" fill="white" opacity="0.18" transform="rotate(-25 9 7)"/>
+</svg>

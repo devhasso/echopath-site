@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs><filter id="g" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.5" result="b"/><feFlood flood-color="#FFD60A" flood-opacity="0.5" result="c"/><feComposite in="c" in2="b" operator="in" result="s"/><feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge></filter><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFE566"/><stop offset="100%" stop-color="#FF9500"/></linearGradient></defs>
+  <!-- Left bolt -->
+  <path d="M8 2 L3 11 H7.5 L6 22 L13 9 H8.5 Z" fill="url(#lg)" filter="url(#g)" opacity="0.8"/>
+  <!-- Right bolt (slightly offset, brighter) -->
+  <path d="M14 2 L9 11 H13.5 L12 22 L19 9 H14.5 Z" fill="url(#lg)" filter="url(#g)"/>
+  <!-- Highlights -->
+  <path d="M14 4 L10.5 10 H13Z" fill="white" opacity="0.18"/>
+</svg>

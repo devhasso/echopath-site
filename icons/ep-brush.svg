@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs>  <filter id="g" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.2" result="b"/><feFlood flood-color="#BF5AF2" flood-opacity="0.55" result="c"/><feComposite in="c" in2="b" operator="in" result="s"/><feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge></filter>  <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#BF5AF2"/><stop offset="100%" stop-color="#FF6B9D"/></linearGradient></defs>
+  <!-- Brush handle -->
+  <rect x="10.5" y="2" width="3" height="12" rx="1.5" fill="url(#lg)" filter="url(#g)" opacity="0.9"/>
+  <!-- Ferrule band -->
+  <rect x="10" y="12" width="4" height="2" rx="0.5" fill="#8B3DB8" opacity="0.6"/>
+  <!-- Bristle tip -->
+  <path d="M10 14 C10 14 9 16 9 17.5 Q9 21 12 22 Q15 21 15 17.5 C15 16 14 14 14 14Z" fill="url(#lg)" filter="url(#g)"/>
+  <!-- Paint splash dots -->
+  <circle cx="18" cy="5" r="1.5" fill="#FF6B9D" opacity="0.7" filter="url(#g)"/>
+  <circle cx="6" cy="8" r="1" fill="#BF5AF2" opacity="0.6" filter="url(#g)"/>
+  <circle cx="19" cy="10" r="0.8" fill="#00FF9F" opacity="0.5" filter="url(#g)"/>
+</svg>

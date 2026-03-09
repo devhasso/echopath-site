@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs>  <filter id="g" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.5" result="b"/><feFlood flood-color="#FF6B00" flood-opacity="0.55" result="c"/><feComposite in="c" in2="b" operator="in" result="s"/><feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge></filter>  <linearGradient id="lg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#FFD60A"/><stop offset="100%" stop-color="#FF3B5C"/></linearGradient></defs>
+  <!-- Outer flame -->
+  <path d="M12 2 C12 2 7 7 7 12.5 C7 15.6 8.5 17.5 10 18.5 C9.5 17 9.5 15.5 10.5 14 C10.5 14 11 17 13 18.5 C15 16.5 17 14 17 12.5 C17 9 15 6.5 14.5 4.5 C14.5 4.5 14 7 13 8 C13 8 13.5 4 12 2Z" fill="url(#lg)" filter="url(#g)"/>
+  <!-- Inner core -->
+  <path d="M12 10 C12 10 10 13 10 15 C10 17 11 18.5 12 19 C13 18.5 14 17 14 15 C14 13 12 10 12 10Z" fill="#FFE566" opacity="0.4"/>
+</svg>

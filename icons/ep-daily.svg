@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs>
+  <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur stdDeviation="2.2" result="blur"/>
+    <feFlood flood-color="#00FF9F" flood-opacity="0.55" result="clr"/>
+    <feComposite in="clr" in2="blur" operator="in" result="shadow"/>
+    <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <linearGradient id="dg" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#00FF9F"/>
+    <stop offset="100%" stop-color="#00D9FF"/>
+  </linearGradient>
+  </defs>
+  <!-- Calendar body -->
+  <rect x="2.5" y="4.5" width="19" height="17" rx="2.5" stroke="url(#dg)" stroke-width="1.5" filter="url(#glow)"/>
+  <!-- Header band -->
+  <rect x="2.5" y="4.5" width="19" height="5.5" rx="2.5" fill="url(#dg)" opacity="0.35"/>
+  <!-- Binding posts -->
+  <line x1="8" y1="2" x2="8" y2="7" stroke="url(#dg)" stroke-width="1.8" stroke-linecap="round" filter="url(#glow)"/>
+  <line x1="16" y1="2" x2="16" y2="7" stroke="url(#dg)" stroke-width="1.8" stroke-linecap="round" filter="url(#glow)"/>
+  <!-- Lightning bolt inside (daily challenge energy) -->
+  <path d="M13.5 11 L10 16 L12.5 16 L10.5 21 L16 14.5 L13 14.5 Z"
+    fill="url(#dg)" filter="url(#glow)" opacity="0.95"/>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs>  <filter id="g" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.5" result="b"/><feFlood flood-color="#FF6B9D" flood-opacity="0.55" result="c"/><feComposite in="c" in2="b" operator="in" result="s"/><feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge></filter>  <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF3B5C"/><stop offset="100%" stop-color="#BF5AF2"/></linearGradient>  <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00D9FF"/><stop offset="100%" stop-color="#00FF9F"/></linearGradient></defs>
+  <!-- Box body -->
+  <rect x="2.5" y="10" width="19" height="12" rx="1.5" fill="url(#lg)" fill-opacity="0.2" stroke="url(#lg)" stroke-width="1.5" filter="url(#g)"/>
+  <!-- Lid -->
+  <rect x="2" y="7" width="20" height="4" rx="1" fill="url(#lg)" fill-opacity="0.45" stroke="url(#lg)" stroke-width="1.3" filter="url(#g)"/>
+  <!-- Ribbon -->
+  <line x1="12" y1="7" x2="12" y2="22" stroke="url(#lg)" stroke-width="2.2" filter="url(#g)" opacity="0.8"/>
+  <!-- Bow left loop -->
+  <path d="M12 7 C12 7 9 3 7 4 C5 5 7 7 12 7" fill="url(#lg)" filter="url(#g)" opacity="0.85"/>
+  <!-- Bow right loop -->
+  <path d="M12 7 C12 7 15 3 17 4 C19 5 17 7 12 7" fill="url(#lg)" filter="url(#g)" opacity="0.85"/>
+</svg>

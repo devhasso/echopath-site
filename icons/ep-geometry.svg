@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs><filter id="g" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.0" result="b"/><feFlood flood-color="#00D9FF" flood-opacity="0.5" result="c"/><feComposite in="c" in2="b" operator="in" result="s"/><feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge></filter><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00D9FF"/><stop offset="100%" stop-color="#00FF9F"/></linearGradient></defs>
+  <!-- Triangle -->
+  <path d="M12 3 L21 18 L3 18 Z" stroke="url(#lg)" stroke-width="1.5" stroke-linejoin="round" filter="url(#g)" fill="url(#lg)" fill-opacity="0.1"/>
+  <!-- Inscribed circle -->
+  <circle cx="12" cy="14" r="4" stroke="url(#lg)" stroke-width="1.3" filter="url(#g)" opacity="0.8"/>
+  <!-- Right angle mark -->
+  <path d="M3 18 L3 14 L7 14" stroke="url(#lg)" stroke-width="1.2" fill="none" opacity="0.5"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs>  <filter id="g" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.5" result="b"/><feFlood flood-color="#FFD60A" flood-opacity="0.55" result="c"/><feComposite in="c" in2="b" operator="in" result="s"/><feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge></filter>  <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFE566"/><stop offset="100%" stop-color="#FF9500"/></linearGradient></defs>
+  <!-- Bold lightning bolt -->
+  <path d="M14 2 L6 13.5 H11.5 L10 22 L18 10.5 H12.5 Z" fill="url(#lg)" filter="url(#g)"/>
+  <!-- Inner highlight -->
+  <path d="M13 4.5 L8 12.5 H11.8 L11 18 L16 11 H12.2Z" fill="white" opacity="0.15"/>
+</svg>

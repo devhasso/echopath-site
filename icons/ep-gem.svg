@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs>
+  <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur stdDeviation="2.5" result="blur"/>
+    <feFlood flood-color="#00D9FF" flood-opacity="0.55" result="clr"/>
+    <feComposite in="clr" in2="blur" operator="in" result="shadow"/>
+    <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <linearGradient id="gg" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#00D9FF"/>
+    <stop offset="100%" stop-color="#00FF9F"/>
+  </linearGradient>
+  <linearGradient id="gf" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#00FFCC"/>
+    <stop offset="100%" stop-color="#0090CC"/>
+  </linearGradient>
+  </defs>
+  <!-- Diamond outline -->
+  <polygon points="12,2 21,8.5 12,22 3,8.5" fill="url(#gg)" filter="url(#glow)" opacity="0.92"/>
+  <!-- Horizontal girdle line -->
+  <line x1="3" y1="8.5" x2="21" y2="8.5" stroke="white" stroke-width="0.5" opacity="0.35"/>
+  <!-- Left upper facet -->
+  <polygon points="12,2 3,8.5 12,8.5" fill="white" opacity="0.12"/>
+  <!-- Right upper shine -->
+  <polygon points="12,2 21,8.5 17,8.5" fill="white" opacity="0.08"/>
+  <!-- Center lower dark facet -->
+  <polygon points="12,8.5 7,8.5 12,22" fill="#005580" opacity="0.18"/>
+  <!-- Sparkle on crown -->
+  <circle cx="12" cy="2.5" r="0.8" fill="white" opacity="0.9"/>
+</svg>

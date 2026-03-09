@@ -5,14 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Echo Path – Trace the Echo. Master the Path.</title>
   <meta name="description" content="Echo Path is a meditative mobile drawing game where you watch, memorise, and trace paths with precision. Available on iOS and Android." />
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
-  <link rel="apple-touch-icon" sizes="192x192" href="icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/common.css" />
   <link rel="stylesheet" href="css/main.css" />
+  <style>
+    .feature-icon-img {
+      width: 32px;
+      height: 32px;
+      display: block;
+      margin: 0 auto 10px;
+      filter: drop-shadow(0 0 6px rgba(120,180,255,0.4));
+    }
+    .preview-stat-icon-img {
+      width: 22px;
+      height: 22px;
+      vertical-align: middle;
+      margin-right: 4px;
+      filter: drop-shadow(0 0 4px rgba(120,180,255,0.35));
+    }
+    .feature-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, rgba(120,180,255,0.18), rgba(80,120,220,0.12));
+      border: 1px solid rgba(120,180,255,0.3);
+      color: #7eb8ff;
+    }
+    .feature-badge.soon {
+      background: linear-gradient(135deg, rgba(255,200,80,0.15), rgba(255,140,40,0.1));
+      border-color: rgba(255,200,80,0.3);
+      color: #ffc850;
+    }
+    .preview-stat-note {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 2px;
+    }
+  </style>
 </head>
 <body>
 
@@ -23,7 +62,7 @@
 <nav>
   <div class="nav-inner">
     <a href="#home" class="nav-logo">
-      <img src="icon.png" alt="Echo Path" class="nav-logo-img" />
+      <img src="icons/icon.png" alt="Echo Path" class="nav-logo-img" />
       Echo Path
     </a>
     <ul class="nav-links">
@@ -114,22 +153,23 @@
         <p class="section-sub" style="margin-bottom:0">See exactly what it feels like to play — from the echo animation to the final accuracy score.</p>
         <div class="preview-stats">
           <div class="preview-stat">
-            <span class="preview-stat-icon">✦</span>
+            <span class="preview-stat-icon"><img src="icons/ep-levels.svg" alt="" class="preview-stat-icon-img" /></span>
             <span class="preview-stat-label">Levels to master</span>
-            <span class="preview-stat-value">50+</span>
+            <span class="preview-stat-value">100+</span>
+            <span class="preview-stat-note">more on the way</span>
           </div>
           <div class="preview-stat">
-            <span class="preview-stat-icon">🏆</span>
+            <span class="preview-stat-icon"><img src="icons/ep-achievements.svg" alt="" class="preview-stat-icon-img" /></span>
             <span class="preview-stat-label">Achievements to unlock</span>
-            <span class="preview-stat-value">20+</span>
+            <span class="preview-stat-value">32</span>
           </div>
           <div class="preview-stat">
-            <span class="preview-stat-icon">📅</span>
+            <span class="preview-stat-icon"><img src="icons/ep-daily.svg" alt="" class="preview-stat-icon-img" /></span>
             <span class="preview-stat-label">Fresh challenge every day</span>
             <span class="preview-stat-value">Daily</span>
           </div>
           <div class="preview-stat">
-            <span class="preview-stat-icon">⭐</span>
+            <span class="preview-stat-icon"><img src="icons/ep-star.svg" alt="" class="preview-stat-icon-img" /></span>
             <span class="preview-stat-label">Stars per level</span>
             <span class="preview-stat-value">Up to 3</span>
           </div>
@@ -157,14 +197,80 @@
     <h2 class="section-title">Built for Focus &amp; Flow</h2>
     <p class="section-sub">Every element of Echo Path is designed to put you in a calm, focused state — then challenge your precision.</p>
     <div class="features-grid">
-      <div class="feature-card"><span class="feature-icon">✦</span><div class="feature-title">Precision Drawing</div><p class="feature-desc">Watch the echo path animate, then reproduce it as accurately as possible. Scored on accuracy, speed, and fluidity.</p></div>
-      <div class="feature-card"><span class="feature-icon">⭐</span><div class="feature-title">Star Ratings</div><p class="feature-desc">Earn up to 3 stars per level. Chase perfect scores and push your accuracy to the limit.</p></div>
-      <div class="feature-card"><span class="feature-icon">🏆</span><div class="feature-title">Achievements</div><p class="feature-desc">Unlock achievements as you progress — from your first completed level to streak milestones and flawless runs.</p></div>
-      <div class="feature-card"><span class="feature-icon">📅</span><div class="feature-title">Daily Challenge</div><p class="feature-desc">A new unique path every day. Complete it for triple coin rewards and keep your daily streak alive.</p></div>
-      <div class="feature-card"><span class="feature-icon">⚡</span><div class="feature-title">Power-Ups</div><p class="feature-desc">Use Path Echo to reveal the ghost trail, or Time Extend to buy yourself precious extra seconds under pressure.</p></div>
-      <div class="feature-card"><span class="feature-icon">🎨</span><div class="feature-title">Trail Skins</div><p class="feature-desc">Customise your drawing trail with unlockable colour skins. Make your path uniquely yours.</p></div>
-      <div class="feature-card"><span class="feature-icon">☁️</span><div class="feature-title">Cloud Save</div><p class="feature-desc">Sign in with Google to sync your progress across devices. Your achievements, stars, and coins always follow you.</p></div>
-      <div class="feature-card"><span class="feature-icon">📊</span><div class="feature-title">Statistics</div><p class="feature-desc">Track your accuracy trends, total stars earned, win streaks, and more in the detailed stats screen.</p></div>
+
+      <div class="feature-card">
+        <span class="feature-icon"><img src="icons/ep-target.svg" alt="" class="feature-icon-img" /></span>
+        <div class="feature-title">Precision Drawing</div>
+        <p class="feature-desc">Watch the echo path animate, then reproduce it as accurately as possible. Scored on accuracy, speed, and fluidity across 100 handcrafted levels — with more levels planned.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon"><img src="icons/ep-star-triple.svg" alt="" class="feature-icon-img" /></span>
+        <div class="feature-title">Star Ratings</div>
+        <p class="feature-desc">Earn up to 3 stars per level. Chase perfect scores, climb the rankings, and push your accuracy to the limit.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon"><img src="icons/ep-achievements.svg" alt="" class="feature-icon-img" /></span>
+        <div class="feature-title">32 Achievements</div>
+        <p class="feature-desc">Unlock 32 achievements as you progress — from your first completed level to win streaks, perfect runs, and speed milestones.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon"><img src="icons/ep-daily.svg" alt="" class="feature-icon-img" /></span>
+        <div class="feature-title">Daily Challenge</div>
+        <p class="feature-desc">A new unique path every day. Complete it for triple coin rewards and keep your daily streak alive. Miss a day, start again.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon"><img src="icons/ep-double-lightning.svg" alt="" class="feature-icon-img" /></span>
+        <div class="feature-title">Power-Ups</div>
+        <p class="feature-desc">Use Path Echo to reveal the ghost trail, Slow Motion to buy thinking time, Time Extend for extra seconds, or Shield to protect your hearts under pressure.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon"><img src="icons/ep-trail-cosmic.svg" alt="" class="feature-icon-img" /></span>
+        <div class="feature-title">Trail Skins</div>
+        <p class="feature-desc">Customise your drawing trail with unlockable colour skins — Fire, Cosmic, Ice, Gold, Cyan, Rainbow, and more. Make your path uniquely yours.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon"><img src="icons/ep-heart-life.svg" alt="" class="feature-icon-img" /></span>
+        <div class="feature-title">Hearts &amp; Energy</div>
+        <p class="feature-desc">You have 5 hearts to spend. Lose one on every failed attempt — refill by watching a short ad, spending gems, or waiting for them to regenerate.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon"><img src="icons/ep-leaderboard.svg" alt="" class="feature-icon-img" /></span>
+        <span class="feature-badge soon">Coming Soon</span>
+        <div class="feature-title">Leaderboard</div>
+        <p class="feature-desc">Compete with players worldwide. Your total stars will determine your global ranking — climb to the top and hold your position.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon"><img src="icons/ep-cloud.svg" alt="" class="feature-icon-img" /></span>
+        <div class="feature-title">Cloud Save</div>
+        <p class="feature-desc">Sign in with Google to sync your progress across devices. Your achievements, stars, gems, and coins always follow you.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon"><img src="icons/ep-stats.svg" alt="" class="feature-icon-img" /></span>
+        <div class="feature-title">Statistics</div>
+        <p class="feature-desc">Track your accuracy trends, total stars earned, win streaks, levels completed, and more in the detailed stats screen.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon"><img src="icons/ep-shop.svg" alt="" class="feature-icon-img" /></span>
+        <div class="feature-title">In-Game Shop</div>
+        <p class="feature-desc">Spend coins and gems on power-ups, trail skins, heart refills, and gem packs. Earn coins by playing — or top up with a purchase when you need them fast.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon"><img src="icons/ep-shooting-star.svg" alt="" class="feature-icon-img" /></span>
+        <div class="feature-title">Ad-Free Option</div>
+        <p class="feature-desc">Play completely uninterrupted with a one-time Ad-Free purchase. No banners, no interruptions — just the game, the path, and your focus.</p>
+      </div>
+
     </div>
   </div>
 </section>
@@ -242,7 +348,7 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">
-      <img src="icon.png" alt="Echo Path" class="footer-logo-img" />
+      <img src="icons/icon.png" alt="Echo Path" class="footer-logo-img" />
       Echo Path
     </div>
     <ul class="footer-links">

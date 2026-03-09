@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs><filter id="g" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.5" result="b"/><feFlood flood-color="#FFD60A" flood-opacity="0.5" result="c"/><feComposite in="c" in2="b" operator="in" result="s"/><feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge></filter><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFE566"/><stop offset="100%" stop-color="#FF9500"/></linearGradient></defs>
+  <!-- Large 4-pt star top-left -->
+  <path d="M7 2 L8 6 L12 7 L8 8 L7 12 L6 8 L2 7 L6 6 Z" fill="url(#lg)" filter="url(#g)"/>
+  <!-- Medium 4-pt star right -->
+  <path d="M17 8 L17.8 11 L21 11.8 L17.8 12.6 L17 15.5 L16.2 12.6 L13 11.8 L16.2 11 Z" fill="url(#lg)" filter="url(#g)" opacity="0.85"/>
+  <!-- Small 4-pt star bottom -->
+  <path d="M10 17 L10.6 19.2 L13 19.8 L10.6 20.4 L10 22.5 L9.4 20.4 L7 19.8 L9.4 19.2 Z" fill="url(#lg)" filter="url(#g)" opacity="0.7"/>
+  <!-- Tiny dot accents -->
+  <circle cx="20" cy="4"  r="1" fill="#FFE566" opacity="0.8" filter="url(#g)"/>
+  <circle cx="4"  cy="18" r="0.7" fill="#FFE566" opacity="0.6"/>
+</svg>

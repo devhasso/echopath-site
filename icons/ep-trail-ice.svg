@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs>
+    <filter id="g" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3" result="b"/><feFlood flood-color="#A8E8FF" flood-opacity="0.5" result="c"/><feComposite in="c" in2="b" operator="in" result="s"/><feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <linearGradient id="lg" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#A8E8FF"/><stop offset="100%" stop-color="#D0F5FF"/></linearGradient>
+  </defs>
+  <!-- Trail curve (S-shaped drawing path) -->
+  <path d="M3 20 C7 5 17 19 21 4" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round" fill="none" filter="url(#g)"/>
+  <!-- Thinner bright inner highlight -->
+  <path d="M3 20 C7 5 17 19 21 4" stroke="white" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.25"/>
+  <!-- Leading dot (brush tip) -->
+  <circle cx="21" cy="4" r="2.5" fill="#D0F5FF" filter="url(#g)"/>
+  <circle cx="21" cy="4" r="1.8" fill="white" opacity="0.5"/><circle cx="3" cy="20" r="1" fill="white" opacity="0.3"/>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs><filter id="g" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.5" result="b"/><feFlood flood-color="#FFD60A" flood-opacity="0.5" result="c"/><feComposite in="c" in2="b" operator="in" result="s"/><feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge></filter><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFE566"/><stop offset="100%" stop-color="#FF9500"/></linearGradient></defs>
+  <!-- Central 8-point star burst -->
+  <polygon points="12.00,3.00 13.53,8.30 18.36,5.64 15.70,10.47 21.00,12.00 15.70,13.53 18.36,18.36 13.53,15.70 12.00,21.00 10.47,15.70 5.64,18.36 8.30,13.53 3.00,12.00 8.30,10.47 5.64,5.64 10.47,8.30" fill="url(#lg)" filter="url(#g)"/>
+  <!-- Inner ring glow -->
+  <circle cx="12" cy="12" r="4.5" fill="url(#lg)" opacity="0.5"/>
+  <!-- Outer sparkle dots -->
+  <circle cx="12" cy="2"  r="1"   fill="#FFE566" opacity="0.8" filter="url(#g)"/>
+  <circle cx="20.5" cy="7"  r="0.8" fill="#FFE566" opacity="0.7" filter="url(#g)"/>
+  <circle cx="3.5"  cy="7"  r="0.8" fill="#FFE566" opacity="0.7" filter="url(#g)"/>
+</svg>

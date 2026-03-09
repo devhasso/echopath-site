@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs>
+  <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur stdDeviation="2.5" result="blur"/>
+    <feFlood flood-color="#FFD60A" flood-opacity="0.55" result="clr"/>
+    <feComposite in="clr" in2="blur" operator="in" result="shadow"/>
+    <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#FFE566"/>
+    <stop offset="100%" stop-color="#FF9500"/>
+  </linearGradient>
+  <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#00D9FF"/>
+    <stop offset="100%" stop-color="#00FF9F"/>
+  </linearGradient>
+  </defs>
+  <!-- Podium: 2nd left, 1st centre, 3rd right -->
+  <!-- 2nd place -->
+  <rect x="1.5" y="12" width="7" height="10" rx="1" fill="url(#lg2)" filter="url(#glow)" opacity="0.75"/>
+  <!-- 1st place (tallest) -->
+  <rect x="8.5" y="7" width="7" height="15" rx="1" fill="url(#lg)" filter="url(#glow)"/>
+  <!-- 3rd place -->
+  <rect x="15.5" y="15" width="7" height="7" rx="1" fill="url(#lg2)" filter="url(#glow)" opacity="0.6"/>
+  <!-- Crown / star on 1st -->
+  <polygon points="12,3 12.9,5.7 15.7,5.7 13.5,7.3 14.3,10 12,8.4 9.7,10 10.5,7.3 8.3,5.7 11.1,5.7"
+    fill="url(#lg)" filter="url(#glow)"/>
+  <!-- Position numbers -->
+  <text x="5" y="20" text-anchor="middle" font-size="4.5" font-weight="700" fill="white" opacity="0.7" font-family="system-ui">2</text>
+  <text x="12" y="20" text-anchor="middle" font-size="4.5" font-weight="700" fill="#7A4800" opacity="0.7" font-family="system-ui">1</text>
+  <text x="19" y="20" text-anchor="middle" font-size="4.5" font-weight="700" fill="white" opacity="0.7" font-family="system-ui">3</text>
+</svg>
